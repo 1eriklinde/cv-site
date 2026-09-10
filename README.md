@@ -29,10 +29,17 @@ rendering it. If you add a section, give it an `id` and add that id to the
 ## Commands
 
 ```
-npm run dev      local server on http://127.0.0.1:8787
-npm test         jsdom tests for the command line
-npm run deploy   publish to Cloudflare
+npm run dev       local server on http://127.0.0.1:8787
+npm test          jsdom tests for the command line
+npm run timeline  regenerate the build timeline from the session log
+npm run deploy    publish to Cloudflare
 ```
+
+`npm run timeline` reads the Claude Code session transcript under
+`~/.claude/projects/-home-erikl-cv-site/` and rewrites the `#timeline` section
+between the `<!-- timeline:start -->` markers in `index.html`. Every figure on
+that section — minutes, turns, tool calls, tokens, cost — is measured from the
+log rather than typed by hand, so it stays honest if regenerated.
 
 ## Deploying
 
