@@ -15,25 +15,36 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DEFAULT_LOG = path.join(os.homedir(), ".claude/projects/-home-erikl-cv-site");
 const TZ_OFFSET_H = 2; // transcript timestamps are UTC; the build happened in CEST
 
+// First prompt and first live deploy. The story is "empty directory to public
+// URL"; everything after the first ship is a different story and is excluded,
+// otherwise this section inflates every time it regenerates itself.
+const T0 = "23:07";           // first prompt, 21:07:54Z
+const SHIP = "23:31";         // first deploy live, 21:31:49Z
+const SHIP_LABEL = "23 min 55 s";
+
 // Opus 5 list rates, $/million tokens. Cache reads bill at ~0.1x input,
 // cache writes at ~1.25x input.
 const RATE = { input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 };
 
-// Editorial phase boundaries [startMinute, label, what happened]
-const PHASES = [
-  ["23:08", "Brief",        "Scoped it, read the CV PDF, agreed the direction"],
-  ["23:12", "Build",        "Wrote the page, styles, command line and deploy config"],
-  ["23:18", "Review",       "Screenshotted it, found and fixed real layout bugs"],
-  ["23:24", "Harden",       "Wrote the test suite, added the CSP, fixed the escaping"],
-  ["23:31", "Ship",         "Cloudflare login, first deploy, renamed the worker"],
-  ["23:36", "Extend",       "Colophon, phone-free PDF, public repo, CI pipeline"],
+// The story. Times are real; the prose is editorial.
+const STORY = [
+  ["23:07", "An empty directory.", "No repo, no wrangler installed, no Cloudflare account set up. A CV in a PDF in the Downloads folder."],
+  ["23:08", "Agreed what to build.", "Terminal aesthetic, IT-operations framing rather than the display-hardware one the PDF led with. The PDF itself had to be parsed the hard way — no poppler on this machine, so pdf.js in a scratch directory."],
+  ["23:10", "Checked the current docs.", "Cloudflare moved static hosting to Workers static assets. Worth two minutes to confirm rather than deploy to Pages out of habit."],
+  ["23:13", "Self-hosted the typeface.", "Two woff2 files, 43 KB. No Google Fonts request, so nothing a visitor does here is visible to anyone else."],
+  ["23:17", "Wrote the page.", "One HTML file, one stylesheet, the command line, the deploy config. No framework, so there was nothing to scaffold and nothing to wait for."],
+  ["23:18", "Looked at it, and found a bug.", "The green dot marking the current role had been pushed onto its own line by a flexbox rule. Markup checks would never have caught it; a screenshot did."],
+  ["23:21", "Chased a phantom.", "Mobile looked broken. Measuring the viewport showed Chrome clamps headless windows to 500px — the layout was fine and the screenshot was lying. Confirmed by measuring real overflow at 375px: none."],
+  ["23:24", "Wrote 23 tests. Two failed.", "One assertion was wrong. The other was a genuine defect: typing HTML into the command line put it straight into innerHTML unescaped."],
+  ["23:26", "Broke it with my own hardening.", "Adding a strict CSP silently killed the uptime ribbon — style-src 'self' blocks inline style attributes, so the segment widths vanished with no error anywhere. Another screenshot caught it. Moved to classes, kept the policy strict."],
+  ["23:28", "Cloudflare said no.", "The first login died server-side: wrangler asks for an OAuth scope list its own client rejects. The device flow with an explicit narrower scope list worked."],
+  ["23:31", "Live.", "Ten assets uploaded, worker updated, edge triggers deployed — 14.3 seconds, on a URL anyone could open."],
 ];
 
 const MILESTONES = [
-  ["23:18", "first render"],
-  ["23:24", "tests green"],
+  ["23:17", "page written"],
+  ["23:24", "tests"],
   ["23:31", "LIVE"],
-  ["23:43", "repo + CI"],
 ];
 
 function resolveLog(arg) {
@@ -57,6 +68,7 @@ for (const line of fs.readFileSync(log, "utf8").split("\n")) {
   const u = d.message?.usage ?? {};
   const t = new Date(Date.parse(d.timestamp) + TZ_OFFSET_H * 3600e3);
   const key = t.toISOString().slice(11, 16);
+  if (key > SHIP) continue; // the story ends at the first live deploy
   const b = perMin.get(key) ?? { out: 0, think: 0 };
   const out = u.output_tokens ?? 0;
   const think = u.output_tokens_details?.thinking_tokens ?? 0;
@@ -131,42 +143,40 @@ const svg = `<svg class="timeline" viewBox="0 0 ${W} ${H}" role="img" aria-label
       ${xlabels}
     </svg>`;
 
-// ---- phase table ----
-const phaseRows = PHASES.map(([from, name, what], i) => {
-  const to = PHASES[i + 1]?.[0] ?? mins[mins.length - 1];
-  let out = 0;
-  for (const m of mins) if (toMin(m) >= toMin(from) && toMin(m) < toMin(to) + (i === PHASES.length - 1 ? 1 : 0)) out += perMin.get(m).out;
-  return `      <tr><td class="tl-when">${from}</td><td class="tl-what"><b>${name}</b> — ${what}</td><td class="tl-num">${(out / 1000).toFixed(1)}k</td></tr>`;
-}).join("\n");
+// ---- story ----
+const storyRows = STORY.map(([when, lead, text]) =>
+  `      <tr><td class="tl-when">${when}</td><td class="tl-what"><b>${lead}</b> ${text}</td></tr>`
+).join("\n");
 
 const toolList = [...tools.entries()].sort((a, b) => b[1] - a[1])
   .map(([n, c]) => `${n} ×${c}`).join(" · ");
 
 const section = `  <section id="timeline" aria-labelledby="h-tl">
-    <h2 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl --since 23:07 --until 23:47</span></h2>
-    <p class="colo-lede">This page went from an empty directory to a live URL in ${Math.round((toMin(mins[mins.length - 1]) - toMin(mins[0])))} minutes, built in a terminal with Claude Code. Every number below is read out of the session log, not remembered.</p>
+    <h2 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since ${T0} --until ${SHIP}</span></h2>
+
+    <p class="tl-headline"><span class="st st-ok">SHIPPED</span> Empty directory to a public URL in <span class="nb">${SHIP_LABEL}</span></p>
+    <p class="colo-lede">Built in a terminal with Claude Code, on a Thursday evening. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
 
     ${svg}
     <p class="tl-legend"><span class="tl-key tl-key-out"></span>tokens written <span class="tl-key tl-key-think"></span>of which reasoning</p>
 
     <table class="tl-table">
-      <caption class="tl-caption">Phases, and what each one cost in generated tokens</caption>
       <tbody>
-${phaseRows}
+${storyRows}
       </tbody>
     </table>
 
     <dl class="skills">
-      <dt>wall clock</dt>
-      <dd>${Math.round(toMin(mins[mins.length - 1]) - toMin(mins[0]))} minutes end to end, including a five-minute detour when Cloudflare's OAuth rejected wrangler's scope list.</dd>
-      <dt>turns</dt>
-      <dd>${total.turns} model turns and ${total.calls} tool calls — ${toolList}.</dd>
+      <dt>to first ship</dt>
+      <dd><span class="nb">${SHIP_LABEL}</span> from the first sentence to a URL anyone could open, and roughly three of those minutes were spent logging in to Cloudflare twice.</dd>
+      <dt>work done</dt>
+      <dd>${total.turns} model turns, ${total.calls} tool calls — ${toolList}.</dd>
       <dt>tokens</dt>
-      <dd>${(total.out / 1000).toFixed(0)}k generated (${(total.think / 1000).toFixed(0)}k of it reasoning), ${(total.cr / 1e6).toFixed(1)}M read back from cache each turn as the context grew.</dd>
-      <dt>what it cost</dt>
-      <dd>About $${cost.toFixed(0)} of model time at Opus 5 list rates — it ran on a Claude Code subscription, so it was not billed per token. Hosting the result costs nothing.</dd>
-      <dt>what I did</dt>
-      <dd>Set the direction, answered ${tools.get("AskUserQuestion") ?? 0} decisions, caught that the CV read too much like display hardware, and said what to build next. The typing was automated; the judgement was not.</dd>
+      <dd>${(total.out / 1000).toFixed(0)}k generated, ${(total.think / 1000).toFixed(0)}k of that reasoning rather than writing. About $${cost.toFixed(0)} of model time at Opus 5 list rates; it ran on a subscription, so nothing was billed per token.</dd>
+      <dt>caught before shipping</dt>
+      <dd>A flexbox rule orphaning the status dot, unescaped input reaching <code>innerHTML</code>, and a Content-Security-Policy that silently disabled part of the layout. Two of the three were only visible in a screenshot.</dd>
+      <dt>what a person did</dt>
+      <dd>Chose the direction, answered ${tools.get("AskUserQuestion") ?? 0} decisions, and rejected the first framing of the CV — the reason this page leads with 6,000 Ubuntu hosts instead of digital signage. The typing was automated. The judgement was not.</dd>
     </dl>
   </section>`;
 
