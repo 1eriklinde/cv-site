@@ -181,6 +181,7 @@ const panel = `  <div class="cards">
       <p class="ship-claim" id="card-1">Empty folder to a public URL in under 25 minutes, for free.</p>
       <svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg>
       <p class="ship-stats"><span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
+      <p class="ship-stats"><a href="https://${REPO}">${REPO}</a> — every file, including the tests and the pipeline</p>
       <p class="ship-more"><a href="#build">read the build log</a></p>
     </aside>
 
@@ -193,8 +194,8 @@ const panel = `  <div class="cards">
 
     <aside class="ship ship-yours" aria-labelledby="card-3">
       <p class="ship-kicker"><span class="st st-plain">BUILD YOUR OWN</span></p>
-      <p class="ship-claim" id="card-3">Point your Claude at the recipe and it builds yours — free, from a phone or a laptop.</p>
-      <p class="ship-stats">It interviews you and reads your CV first, then designs for you. <a href="https://${REPO}">${REPO}</a></p>
+      <p class="ship-claim" id="card-3">Create your own personalised CV site for free with this guide, and be up and running in under 30 minutes.</p>
+      <p class="ship-stats">Point Claude Code at it from a phone or a laptop. It interviews you and reads your CV first, then designs for you — not a copy of this page.</p>
       <p class="ship-more"><a href="#yours">read the guide</a></p>
     </aside>
   </div>`;
