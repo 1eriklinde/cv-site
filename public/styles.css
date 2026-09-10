@@ -81,7 +81,7 @@ b { font-weight: 700; color: var(--fg); }
 .prompt { color: var(--accent); user-select: none; }
 .cmd .c, .typed { color: var(--fg); font-weight: 700; }
 
-h2.cmd { margin: 4.5rem 0 1.5rem; scroll-margin-top: calc(var(--sl-h) + 16px); }
+h2.cmd, h3.cmd { margin: 4.5rem 0 1.5rem; font-size: 15px; font-weight: 400; scroll-margin-top: calc(var(--sl-h) + 16px); }
 section:first-of-type h2.cmd { margin-top: 3.5rem; }
 
 /* ---------- hero ---------- */
@@ -226,7 +226,7 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
   .tags { margin-top: 0.6rem; }
   .skills { gap: 0.25rem 14px; }
   .contact li { margin-bottom: 0.25rem; }
-  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, #phone, #yours, .ship { display: none !important; }
+  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #build, .ship { display: none !important; }
   .typed::after { display: none; }
   .st-ok { border: 1px solid #000; }
   h2.cmd { margin: 1.2rem 0 0.6rem; page-break-after: avoid; }
@@ -278,6 +278,23 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .pipe-t-live { fill: var(--ok-ink); font-weight: 700; }
 .pipe-line path { stroke: var(--dimmer); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
+
+/* ---------- the build story, as its own article ---------- */
+.story {
+  margin-top: 7rem;
+  padding-top: 3.2rem;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: calc(var(--sl-h) + 16px);
+}
+.story-head { margin-bottom: 1rem; }
+.story-kicker { margin: 0 0 1.6rem; font-size: 15px; color: var(--dim); }
+.story-title {
+  margin: 0 0 1rem;
+  font-size: clamp(21px, 3.2vw, 25px); /* stays under the h1 */
+  font-weight: 700; line-height: 1.35; letter-spacing: -0.012em;
+}
+.story-standfirst { margin: 0; max-width: 68ch; color: var(--dim); }
+.story > section:first-of-type h3.cmd { margin-top: 3.2rem; }
 
 /* ---------- phone story lead ---------- */
 .phone-lead {

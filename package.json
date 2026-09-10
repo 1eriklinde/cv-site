@@ -8,7 +8,10 @@
     "deploy": "wrangler deploy",
     "tail": "wrangler tail",
     "test": "node test/shell.test.mjs",
-    "timeline": "node tools/build-timeline.mjs"
+    "timeline": "node tools/build-timeline.mjs",
+    "preview": "wrangler versions upload",
+    "promote": "node tools/promote.mjs",
+    "versions": "wrangler versions list"
   },
   "devDependencies": {
     "wrangler": "^4",

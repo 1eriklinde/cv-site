@@ -191,7 +191,7 @@ const toolList = [...tools.entries()].sort((a, b) => b[1] - a[1])
   .map(([n, c]) => `${n} ×${c}`).join(" · ");
 
 const section = `  <section id="timeline" aria-labelledby="h-tl">
-    <h2 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since ${T0} --until ${SHIP}</span></h2>
+    <h3 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since ${T0} --until ${SHIP}</span></h3>
 
     <p class="colo-lede">Built in a terminal with Claude Code on a Thursday evening, from an empty folder to a public URL in <span class="nb">${SHIP_LABEL}</span>. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
 

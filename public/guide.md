@@ -100,6 +100,22 @@ phone, a container, or a remote session cannot receive.
 
 The result is live at `<name>.<subdomain>.workers.dev`.
 
+### Stage it first
+
+Deploying straight to production is fine for the first push, when there is
+nothing to break. After that, upload a version and check it before promoting:
+
+```bash
+npx wrangler versions upload    # prints a preview URL; production untouched
+# check the preview URL: status codes, a screenshot, the part that changed
+npx wrangler versions deploy --yes
+```
+
+The preview is a real deployment on the real config, at
+`https://<version-prefix>-<name>.<subdomain>.workers.dev`. An agent should
+verify there and report what it saw before promoting — not deploy to production
+and check afterwards.
+
 ## 6. Repository and pipeline
 
 ```bash

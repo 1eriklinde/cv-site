@@ -33,8 +33,25 @@ rendering it. If you add a section, give it an `id` and add that id to the
 npm run dev       local server on http://127.0.0.1:8787
 npm test          jsdom tests for the command line
 npm run timeline  regenerate the build timeline from the session log
-npm run deploy    publish to Cloudflare
+npm run preview   upload a version and print its preview URL (production untouched)
+npm run promote   send the latest uploaded version to production
+npm run deploy    build and publish straight to production, skipping the preview
 ```
+
+## Staging before production
+
+`npm run preview` uploads the current files as a new Worker version and prints a
+URL of the form `https://<version-prefix>-cv.<subdomain>.workers.dev`. Production
+keeps serving the previous version until you promote. Check the preview URL —
+status codes, a screenshot, the sections you changed — then:
+
+```bash
+npm run promote
+```
+
+`npm run versions` lists what has been uploaded and what is live. This is the
+safer default for anything visual: the preview is a real edge deployment on the
+real config, not a local approximation.
 
 `npm run timeline` reads the Claude Code session transcript under
 `~/.claude/projects/-home-erikl-cv-site/` and rewrites the `#timeline` section

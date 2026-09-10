@@ -29,7 +29,7 @@
   <header class="hero">
     <p class="cmd"><span class="prompt">erik@stockholm:~$</span> <span class="typed" data-typed="./check_erik --verbose">./check_erik --verbose</span></p>
     <div class="check">
-      <p class="check-status"><span class="st st-ok">OK</span> Erik Linde — IT operations &amp; monitoring engineer</p>
+      <h1 class="check-status"><span class="st st-ok">OK</span> Erik Linde — IT operations &amp; monitoring engineer</h1>
       <p class="perf">| hosts=6000 markets=7 experience=6y stack=linux oncall=yes</p>
     </div>
     <p class="lede">Six years in IT operations, from service desk and SLA management through MSP tooling to infrastructure monitoring. Today I own observability for roughly 6,000 Ubuntu hosts across seven European markets: the Icinga2 estate, the pipeline behind it, and the integrations that connect monitoring to asset management and ITSM. I build the tooling I need rather than wait for it. Comfortable from kernel parameters and systemd up to SLA definitions and stakeholder reporting.</p>
@@ -173,8 +173,120 @@
     </ul>
   </section>
 
+
+
+
+
+
+  <article id="build" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cd build &amp;&amp; cat README.md</span></p>
+      <h2 class="story-title">How this site was built</h2>
+      <p class="story-standfirst">An empty folder to a public URL in under 25 minutes, for free — including the four things that went wrong on the way, what it means that the laptop is now optional, and the recipe to do the same thing yourself.</p>
+    </header>
+
+  <!-- timeline:start -->
+  <section id="timeline" aria-labelledby="h-tl">
+    <h3 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since 23:07 --until 23:31</span></h3>
+
+    <p class="colo-lede">Built in a terminal with Claude Code on a Thursday evening, from an empty folder to a public URL in <span class="nb">23 min 55 s</span>. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
+
+    <svg class="timeline" viewBox="0 0 720 190" role="img" aria-labelledby="tl-t tl-d">
+      <title id="tl-t">Tokens generated per minute across the build</title>
+      <desc id="tl-d">A bar per minute from 23:08 to 23:31, showing tokens generated. The darker portion of each bar is reasoning. Markers show the first rendered page, the point the tests went green, the first live deploy, and the repository and CI setup.</desc>
+      <line class="tl-grid" x1="42" x2="712" y1="156.0" y2="156.0"/><text class="tl-ax" x="35" y="159.5" text-anchor="end">0</text><line class="tl-grid" x1="42" x2="712" y1="91.0" y2="91.0"/><text class="tl-ax" x="35" y="94.5" text-anchor="end">10k</text><line class="tl-grid" x1="42" x2="712" y1="26.0" y2="26.0"/><text class="tl-ax" x="35" y="29.5" text-anchor="end">20k</text>
+      <rect class="tl-bar" x="49.5" y="117.8" width="13.0" height="38.2"/><rect class="tl-think" x="49.5" y="138.9" width="13.0" height="17.1"/><rect class="tl-bar" x="77.4" y="129.0" width="13.0" height="27.0"/><rect class="tl-think" x="77.4" y="150.2" width="13.0" height="5.8"/><rect class="tl-bar" x="105.3" y="84.9" width="13.0" height="71.1"/><rect class="tl-think" x="105.3" y="111.1" width="13.0" height="44.9"/><rect class="tl-bar" x="133.2" y="117.9" width="13.0" height="38.1"/><rect class="tl-think" x="133.2" y="137.2" width="13.0" height="18.8"/><rect class="tl-bar" x="161.1" y="60.1" width="13.0" height="95.9"/><rect class="tl-think" x="161.1" y="81.2" width="13.0" height="74.8"/><rect class="tl-bar" x="189.0" y="80.3" width="13.0" height="75.7"/><rect class="tl-think" x="189.0" y="94.5" width="13.0" height="61.5"/><rect class="tl-bar" x="217.0" y="34.1" width="13.0" height="121.9"/><rect class="tl-think" x="217.0" y="110.6" width="13.0" height="45.4"/><rect class="tl-bar" x="244.9" y="95.0" width="13.0" height="61.0"/><rect class="tl-think" x="244.9" y="133.3" width="13.0" height="22.7"/><rect class="tl-bar" x="272.8" y="56.3" width="13.0" height="99.7"/><rect class="tl-think" x="272.8" y="135.0" width="13.0" height="21.0"/><rect class="tl-bar" x="300.7" y="106.5" width="13.0" height="49.5"/><rect class="tl-think" x="300.7" y="145.6" width="13.0" height="10.4"/><rect class="tl-bar" x="328.6" y="130.5" width="13.0" height="25.5"/><rect class="tl-think" x="328.6" y="147.9" width="13.0" height="8.1"/><rect class="tl-bar" x="356.5" y="93.5" width="13.0" height="62.5"/><rect class="tl-think" x="356.5" y="117.9" width="13.0" height="38.1"/><rect class="tl-bar" x="384.5" y="108.4" width="13.0" height="47.6"/><rect class="tl-think" x="384.5" y="123.8" width="13.0" height="32.2"/><rect class="tl-bar" x="412.4" y="79.0" width="13.0" height="77.0"/><rect class="tl-think" x="412.4" y="108.5" width="13.0" height="47.5"/><rect class="tl-bar" x="440.3" y="84.4" width="13.0" height="71.6"/><rect class="tl-think" x="440.3" y="137.3" width="13.0" height="18.7"/><rect class="tl-bar" x="468.2" y="86.5" width="13.0" height="69.5"/><rect class="tl-think" x="468.2" y="131.1" width="13.0" height="24.9"/><rect class="tl-bar" x="496.1" y="83.4" width="13.0" height="72.6"/><rect class="tl-think" x="496.1" y="118.8" width="13.0" height="37.2"/><rect class="tl-bar" x="524.0" y="90.9" width="13.0" height="65.1"/><rect class="tl-think" x="524.0" y="121.9" width="13.0" height="34.1"/><rect class="tl-bar" x="552.0" y="100.3" width="13.0" height="55.7"/><rect class="tl-think" x="552.0" y="131.2" width="13.0" height="24.8"/><rect class="tl-bar" x="579.9" y="149.3" width="13.0" height="6.7"/><rect class="tl-think" x="579.9" y="156.0" width="13.0" height="0.0"/><rect class="tl-bar" x="607.8" y="122.3" width="13.0" height="33.7"/><rect class="tl-think" x="607.8" y="138.6" width="13.0" height="17.4"/><rect class="tl-bar" x="635.7" y="141.8" width="13.0" height="14.2"/><rect class="tl-think" x="635.7" y="154.0" width="13.0" height="2.0"/><rect class="tl-bar" x="663.6" y="143.2" width="13.0" height="12.8"/><rect class="tl-think" x="663.6" y="152.5" width="13.0" height="3.5"/><rect class="tl-bar" x="691.5" y="138.1" width="13.0" height="17.9"/><rect class="tl-think" x="691.5" y="147.3" width="13.0" height="8.7"/>
+      <line class="tl-mark" x1="307.2" x2="307.2" y1="20" y2="156"/><text class="tl-marklabel" x="307.2" y="15" text-anchor="middle">page written</text><line class="tl-mark" x1="502.6" x2="502.6" y1="20" y2="156"/><text class="tl-marklabel" x="502.6" y="15" text-anchor="middle">tests</text><line class="tl-mark" x1="698.0" x2="698.0" y1="20" y2="156"/><text class="tl-marklabel" x="698.0" y="15" text-anchor="middle">LIVE</text>
+      <text class="tl-ax" x="111.8" y="172" text-anchor="middle">23:10</text><text class="tl-ax" x="391.0" y="172" text-anchor="middle">23:20</text><text class="tl-ax" x="670.1" y="172" text-anchor="middle">23:30</text>
+    </svg>
+    <p class="tl-legend"><span class="tl-key tl-key-out"></span>tokens written <span class="tl-key tl-key-think"></span>of which reasoning</p>
+
+    <table class="tl-table">
+      <tbody>
+      <tr><td class="tl-when">23:07</td><td class="tl-what"><b>An empty directory.</b> No repo, no wrangler installed, no Cloudflare account set up. A CV in a PDF in the Downloads folder.</td></tr>
+      <tr><td class="tl-when">23:08</td><td class="tl-what"><b>Agreed what to build.</b> Terminal aesthetic, and a round of CV adjustments. The PDF itself had to be parsed the hard way — no poppler on this machine, so pdf.js in a scratch directory.</td></tr>
+      <tr><td class="tl-when">23:10</td><td class="tl-what"><b>Checked the current docs.</b> Cloudflare moved static hosting to Workers static assets. Worth two minutes to confirm rather than deploy to Pages out of habit.</td></tr>
+      <tr><td class="tl-when">23:13</td><td class="tl-what"><b>Self-hosted the typeface.</b> Two woff2 files, 43 KB. No Google Fonts request, so nothing a visitor does here is visible to anyone else.</td></tr>
+      <tr><td class="tl-when">23:17</td><td class="tl-what"><b>Wrote the page.</b> One HTML file, one stylesheet, the command line, the deploy config. No framework, so there was nothing to scaffold and nothing to wait for.</td></tr>
+      <tr><td class="tl-when">23:18</td><td class="tl-what"><b>Looked at it, and found a bug.</b> The green dot marking the current role had been pushed onto its own line by a flexbox rule. Markup checks would never have caught it; a screenshot did.</td></tr>
+      <tr><td class="tl-when">23:21</td><td class="tl-what"><b>Chased a phantom.</b> Mobile looked broken. Measuring the viewport showed Chrome clamps headless windows to 500px — the layout was fine and the screenshot was lying. Confirmed by measuring real overflow at 375px: none.</td></tr>
+      <tr><td class="tl-when">23:24</td><td class="tl-what"><b>Wrote 23 tests. Two failed.</b> One assertion was wrong. The other was a genuine defect: typing HTML into the command line put it straight into innerHTML unescaped.</td></tr>
+      <tr><td class="tl-when">23:26</td><td class="tl-what"><b>Broke it with my own hardening.</b> Adding a strict CSP silently killed the uptime ribbon — style-src 'self' blocks inline style attributes, so the segment widths vanished with no error anywhere. Another screenshot caught it. Moved to classes, kept the policy strict.</td></tr>
+      <tr><td class="tl-when">23:28</td><td class="tl-what"><b>Cloudflare said no.</b> The first login died server-side: wrangler asks for an OAuth scope list its own client rejects. The device flow with an explicit narrower scope list worked.</td></tr>
+      <tr><td class="tl-when">23:31</td><td class="tl-what"><b>Live.</b> Ten assets uploaded, worker updated, edge triggers deployed — 14.3 seconds, on a URL anyone could open.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>to first ship</dt>
+      <dd><span class="nb">23 min 55 s</span> from the first sentence to a URL anyone could open, and roughly three of those minutes were spent logging in to Cloudflare twice.</dd>
+      <dt>work done</dt>
+      <dd>167 model turns, 74 tool calls — Bash ×54 · Read ×10 · AskUserQuestion ×4 · Skill ×2 · ToolSearch ×2 · docs lookup ×2.</dd>
+      <dt>tokens</dt>
+      <dd>202k generated, 95k of that reasoning rather than writing. About $16 of model time at Opus 5 list rates; it ran on a subscription, so nothing was billed per token.</dd>
+      <dt>caught before shipping</dt>
+      <dd>A flexbox rule orphaning the status dot, unescaped input reaching <code>innerHTML</code>, and a Content-Security-Policy that silently disabled part of the layout. Two of the three were only visible in a screenshot.</dd>
+      <dt>what a person did</dt>
+      <dd>Chose the direction, answered 4 decisions, and drove the CV adjustments that shaped what this page says. The typing was automated. The judgement was not.</dd>
+    </dl>
+  </section>
+  <!-- timeline:end -->
+
+  <section id="phone" aria-labelledby="h-phone">
+    <h3 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h3>
+    <p class="phone-lead">The slowest part of changing this page from a phone is typing the sentence that describes the change.</p>
+    <p class="colo-lede">The laptop is optional now. Every part of the loop is already a URL — the repository, the tests, the deploy — so the whole thing runs from a train, and nothing in the chain needs a terminal.</p>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>from nothing</dt>
+      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
+      <dt>the one catch</dt>
+      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
+      <dt>why it holds up</dt>
+      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
+    </dl>
+  </section>
+
+  <section id="yours" aria-labelledby="h-yours">
+    <h3 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h3>
+    <p class="colo-lede">Everything above is a recipe, and the recipe is published. Point your own Claude at it and it will build you the same thing — your content, your design direction, your Cloudflare account.</p>
+
+    <div class="paste">
+      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
+      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
+build and deploy my CV site. Ask me the questions in step 1 first.
+My CV is attached.</code></pre>
+      <button type="button" class="copy" data-copy="own-prompt">copy</button>
+    </div>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It asks you three questions.</b> Whose CV, aimed at what kind of role, and which contact details should be public. The guide puts these first on purpose — framing changes the result more than any technical choice does.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>It builds, looks, and tests.</b> Plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>what you need</dt>
+      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely. No card, no domain, no server.</dd>
+      <dt>why it works on a phone</dt>
+      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
+    </dl>
+  </section>
+
   <section id="colophon" aria-labelledby="h-colo">
-    <h2 id="h-colo" class="cmd"><span class="prompt">$</span> <span class="c">cat colophon.md</span></h2>
+    <h3 id="h-colo" class="cmd"><span class="prompt">$</span> <span class="c">cat colophon.md</span></h3>
     <p class="colo-lede">This page is the same kind of thing I build at work, scaled down: plain files, a test gate, and a deploy you can watch happen. No framework, no build step, nothing to keep patched.</p>
 
     <svg class="diagram" viewBox="0 0 720 150" role="img" aria-labelledby="diag-t diag-d">
@@ -221,107 +333,7 @@
       <dd>€0. Cloudflare Workers free plan; static asset requests are unmetered.</dd>
     </dl>
   </section>
-
-
-  <!-- timeline:start -->
-  <section id="timeline" aria-labelledby="h-tl">
-    <h2 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since 23:07 --until 23:31</span></h2>
-
-    <p class="colo-lede">Built in a terminal with Claude Code on a Thursday evening, from an empty folder to a public URL in <span class="nb">23 min 55 s</span>. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
-
-    <svg class="timeline" viewBox="0 0 720 190" role="img" aria-labelledby="tl-t tl-d">
-      <title id="tl-t">Tokens generated per minute across the build</title>
-      <desc id="tl-d">A bar per minute from 23:08 to 23:31, showing tokens generated. The darker portion of each bar is reasoning. Markers show the first rendered page, the point the tests went green, the first live deploy, and the repository and CI setup.</desc>
-      <line class="tl-grid" x1="42" x2="712" y1="156.0" y2="156.0"/><text class="tl-ax" x="35" y="159.5" text-anchor="end">0</text><line class="tl-grid" x1="42" x2="712" y1="91.0" y2="91.0"/><text class="tl-ax" x="35" y="94.5" text-anchor="end">10k</text><line class="tl-grid" x1="42" x2="712" y1="26.0" y2="26.0"/><text class="tl-ax" x="35" y="29.5" text-anchor="end">20k</text>
-      <rect class="tl-bar" x="49.5" y="117.8" width="13.0" height="38.2"/><rect class="tl-think" x="49.5" y="138.9" width="13.0" height="17.1"/><rect class="tl-bar" x="77.4" y="129.0" width="13.0" height="27.0"/><rect class="tl-think" x="77.4" y="150.2" width="13.0" height="5.8"/><rect class="tl-bar" x="105.3" y="84.9" width="13.0" height="71.1"/><rect class="tl-think" x="105.3" y="111.1" width="13.0" height="44.9"/><rect class="tl-bar" x="133.2" y="117.9" width="13.0" height="38.1"/><rect class="tl-think" x="133.2" y="137.2" width="13.0" height="18.8"/><rect class="tl-bar" x="161.1" y="60.1" width="13.0" height="95.9"/><rect class="tl-think" x="161.1" y="81.2" width="13.0" height="74.8"/><rect class="tl-bar" x="189.0" y="80.3" width="13.0" height="75.7"/><rect class="tl-think" x="189.0" y="94.5" width="13.0" height="61.5"/><rect class="tl-bar" x="217.0" y="34.1" width="13.0" height="121.9"/><rect class="tl-think" x="217.0" y="110.6" width="13.0" height="45.4"/><rect class="tl-bar" x="244.9" y="95.0" width="13.0" height="61.0"/><rect class="tl-think" x="244.9" y="133.3" width="13.0" height="22.7"/><rect class="tl-bar" x="272.8" y="56.3" width="13.0" height="99.7"/><rect class="tl-think" x="272.8" y="135.0" width="13.0" height="21.0"/><rect class="tl-bar" x="300.7" y="106.5" width="13.0" height="49.5"/><rect class="tl-think" x="300.7" y="145.6" width="13.0" height="10.4"/><rect class="tl-bar" x="328.6" y="130.5" width="13.0" height="25.5"/><rect class="tl-think" x="328.6" y="147.9" width="13.0" height="8.1"/><rect class="tl-bar" x="356.5" y="93.5" width="13.0" height="62.5"/><rect class="tl-think" x="356.5" y="117.9" width="13.0" height="38.1"/><rect class="tl-bar" x="384.5" y="108.4" width="13.0" height="47.6"/><rect class="tl-think" x="384.5" y="123.8" width="13.0" height="32.2"/><rect class="tl-bar" x="412.4" y="79.0" width="13.0" height="77.0"/><rect class="tl-think" x="412.4" y="108.5" width="13.0" height="47.5"/><rect class="tl-bar" x="440.3" y="84.4" width="13.0" height="71.6"/><rect class="tl-think" x="440.3" y="137.3" width="13.0" height="18.7"/><rect class="tl-bar" x="468.2" y="86.5" width="13.0" height="69.5"/><rect class="tl-think" x="468.2" y="131.1" width="13.0" height="24.9"/><rect class="tl-bar" x="496.1" y="83.4" width="13.0" height="72.6"/><rect class="tl-think" x="496.1" y="118.8" width="13.0" height="37.2"/><rect class="tl-bar" x="524.0" y="90.9" width="13.0" height="65.1"/><rect class="tl-think" x="524.0" y="121.9" width="13.0" height="34.1"/><rect class="tl-bar" x="552.0" y="100.3" width="13.0" height="55.7"/><rect class="tl-think" x="552.0" y="131.2" width="13.0" height="24.8"/><rect class="tl-bar" x="579.9" y="149.3" width="13.0" height="6.7"/><rect class="tl-think" x="579.9" y="156.0" width="13.0" height="0.0"/><rect class="tl-bar" x="607.8" y="122.3" width="13.0" height="33.7"/><rect class="tl-think" x="607.8" y="138.6" width="13.0" height="17.4"/><rect class="tl-bar" x="635.7" y="141.8" width="13.0" height="14.2"/><rect class="tl-think" x="635.7" y="154.0" width="13.0" height="2.0"/><rect class="tl-bar" x="663.6" y="143.2" width="13.0" height="12.8"/><rect class="tl-think" x="663.6" y="152.5" width="13.0" height="3.5"/><rect class="tl-bar" x="691.5" y="138.1" width="13.0" height="17.9"/><rect class="tl-think" x="691.5" y="147.3" width="13.0" height="8.7"/>
-      <line class="tl-mark" x1="307.2" x2="307.2" y1="20" y2="156"/><text class="tl-marklabel" x="307.2" y="15" text-anchor="middle">page written</text><line class="tl-mark" x1="502.6" x2="502.6" y1="20" y2="156"/><text class="tl-marklabel" x="502.6" y="15" text-anchor="middle">tests</text><line class="tl-mark" x1="698.0" x2="698.0" y1="20" y2="156"/><text class="tl-marklabel" x="698.0" y="15" text-anchor="middle">LIVE</text>
-      <text class="tl-ax" x="111.8" y="172" text-anchor="middle">23:10</text><text class="tl-ax" x="391.0" y="172" text-anchor="middle">23:20</text><text class="tl-ax" x="670.1" y="172" text-anchor="middle">23:30</text>
-    </svg>
-    <p class="tl-legend"><span class="tl-key tl-key-out"></span>tokens written <span class="tl-key tl-key-think"></span>of which reasoning</p>
-
-    <table class="tl-table">
-      <tbody>
-      <tr><td class="tl-when">23:07</td><td class="tl-what"><b>An empty directory.</b> No repo, no wrangler installed, no Cloudflare account set up. A CV in a PDF in the Downloads folder.</td></tr>
-      <tr><td class="tl-when">23:08</td><td class="tl-what"><b>Agreed what to build.</b> Terminal aesthetic, and a round of CV adjustments. The PDF itself had to be parsed the hard way — no poppler on this machine, so pdf.js in a scratch directory.</td></tr>
-      <tr><td class="tl-when">23:10</td><td class="tl-what"><b>Checked the current docs.</b> Cloudflare moved static hosting to Workers static assets. Worth two minutes to confirm rather than deploy to Pages out of habit.</td></tr>
-      <tr><td class="tl-when">23:13</td><td class="tl-what"><b>Self-hosted the typeface.</b> Two woff2 files, 43 KB. No Google Fonts request, so nothing a visitor does here is visible to anyone else.</td></tr>
-      <tr><td class="tl-when">23:17</td><td class="tl-what"><b>Wrote the page.</b> One HTML file, one stylesheet, the command line, the deploy config. No framework, so there was nothing to scaffold and nothing to wait for.</td></tr>
-      <tr><td class="tl-when">23:18</td><td class="tl-what"><b>Looked at it, and found a bug.</b> The green dot marking the current role had been pushed onto its own line by a flexbox rule. Markup checks would never have caught it; a screenshot did.</td></tr>
-      <tr><td class="tl-when">23:21</td><td class="tl-what"><b>Chased a phantom.</b> Mobile looked broken. Measuring the viewport showed Chrome clamps headless windows to 500px — the layout was fine and the screenshot was lying. Confirmed by measuring real overflow at 375px: none.</td></tr>
-      <tr><td class="tl-when">23:24</td><td class="tl-what"><b>Wrote 23 tests. Two failed.</b> One assertion was wrong. The other was a genuine defect: typing HTML into the command line put it straight into innerHTML unescaped.</td></tr>
-      <tr><td class="tl-when">23:26</td><td class="tl-what"><b>Broke it with my own hardening.</b> Adding a strict CSP silently killed the uptime ribbon — style-src 'self' blocks inline style attributes, so the segment widths vanished with no error anywhere. Another screenshot caught it. Moved to classes, kept the policy strict.</td></tr>
-      <tr><td class="tl-when">23:28</td><td class="tl-what"><b>Cloudflare said no.</b> The first login died server-side: wrangler asks for an OAuth scope list its own client rejects. The device flow with an explicit narrower scope list worked.</td></tr>
-      <tr><td class="tl-when">23:31</td><td class="tl-what"><b>Live.</b> Ten assets uploaded, worker updated, edge triggers deployed — 14.3 seconds, on a URL anyone could open.</td></tr>
-      </tbody>
-    </table>
-
-    <dl class="skills">
-      <dt>to first ship</dt>
-      <dd><span class="nb">23 min 55 s</span> from the first sentence to a URL anyone could open, and roughly three of those minutes were spent logging in to Cloudflare twice.</dd>
-      <dt>work done</dt>
-      <dd>167 model turns, 74 tool calls — Bash ×54 · Read ×10 · AskUserQuestion ×4 · Skill ×2 · ToolSearch ×2 · docs lookup ×2.</dd>
-      <dt>tokens</dt>
-      <dd>202k generated, 95k of that reasoning rather than writing. About $16 of model time at Opus 5 list rates; it ran on a subscription, so nothing was billed per token.</dd>
-      <dt>caught before shipping</dt>
-      <dd>A flexbox rule orphaning the status dot, unescaped input reaching <code>innerHTML</code>, and a Content-Security-Policy that silently disabled part of the layout. Two of the three were only visible in a screenshot.</dd>
-      <dt>what a person did</dt>
-      <dd>Chose the direction, answered 4 decisions, and drove the CV adjustments that shaped what this page says. The typing was automated. The judgement was not.</dd>
-    </dl>
-  </section>
-  <!-- timeline:end -->
-
-  <section id="phone" aria-labelledby="h-phone">
-    <h2 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h2>
-    <p class="phone-lead">The slowest part of changing this page from a phone is typing the sentence that describes the change.</p>
-    <p class="colo-lede">The laptop is optional now. Every part of the loop is already a URL — the repository, the tests, the deploy — so the whole thing runs from a train, and nothing in the chain needs a terminal.</p>
-
-    <table class="tl-table">
-      <tbody>
-        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
-        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
-        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
-        <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
-      </tbody>
-    </table>
-
-    <dl class="skills">
-      <dt>from nothing</dt>
-      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
-      <dt>the one catch</dt>
-      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
-      <dt>why it holds up</dt>
-      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
-    </dl>
-  </section>
-
-  <section id="yours" aria-labelledby="h-yours">
-    <h2 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h2>
-    <p class="colo-lede">Everything above is a recipe, and the recipe is published. Point your own Claude at it and it will build you the same thing — your content, your design direction, your Cloudflare account.</p>
-
-    <div class="paste">
-      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
-      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
-build and deploy my CV site. Ask me the questions in step 1 first.
-My CV is attached.</code></pre>
-      <button type="button" class="copy" data-copy="own-prompt">copy</button>
-    </div>
-
-    <table class="tl-table">
-      <tbody>
-        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
-        <tr><td class="tl-when">2</td><td class="tl-what"><b>It asks you three questions.</b> Whose CV, aimed at what kind of role, and which contact details should be public. The guide puts these first on purpose — framing changes the result more than any technical choice does.</td></tr>
-        <tr><td class="tl-when">3</td><td class="tl-what"><b>It builds, looks, and tests.</b> Plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
-        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
-      </tbody>
-    </table>
-
-    <dl class="skills">
-      <dt>what you need</dt>
-      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely. No card, no domain, no server.</dd>
-      <dt>why it works on a phone</dt>
-      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
-    </dl>
-  </section>
+  </article>
 
   <footer class="foot">
     <p>Built as a static page and served from Cloudflare's edge. No trackers, no analytics, no cookies.</p>
