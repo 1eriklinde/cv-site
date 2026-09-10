@@ -226,7 +226,7 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
   .tags { margin-top: 0.6rem; }
   .skills { gap: 0.25rem 14px; }
   .contact li { margin-bottom: 0.25rem; }
-  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline { display: none !important; }
+  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, .ship { display: none !important; }
   .typed::after { display: none; }
   .st-ok { border: 1px solid #000; }
   h2.cmd { margin: 1.2rem 0 0.6rem; page-break-after: avoid; }
@@ -253,6 +253,23 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .dg-t-live { fill: var(--ok-ink); }
 .dg-s { fill: var(--dimmer); font: 400 11px var(--mono); }
 .dg-line path { stroke: var(--dimmer); stroke-width: 1.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- ship panel ---------- */
+.ship {
+  margin: 2.8rem 0 0;
+  padding: 15px 18px 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--ok);
+  border-radius: 2px;
+  max-width: 66ch;
+}
+.ship-claim { margin: 0 0 0.9rem; font-size: 15px; font-weight: 700; line-height: 1.55; }
+.ship-claim .st { font-size: 0.72em; margin-right: 9px; }
+.spark { display: block; width: 168px; height: 26px; margin: 0 0 0.8rem; }
+.spark rect { fill: var(--dim); opacity: 0.55; }
+.ship-stats { margin: 0; font-size: 12.5px; color: var(--dimmer); line-height: 1.6; }
+.ship-stats a { margin-left: 8px; white-space: nowrap; }
 
 /* ---------- build timeline ---------- */
 .timeline { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 0 0.6rem; overflow: visible; }

@@ -147,6 +147,21 @@ const svg = `<svg class="timeline" viewBox="0 0 ${W} ${H}" role="img" aria-label
       ${xlabels}
     </svg>`;
 
+// ---- sparkline for the stat panel ----
+const SW = 168, SH = 26;
+const sSlot = SW / mins.length;
+const sBarW = Math.max(2, sSlot - 1.5);
+const spark = mins.map((m, i) => {
+  const h = Math.max(1.5, (perMin.get(m).out / peak) * SH);
+  return `<rect x="${(i * sSlot).toFixed(1)}" y="${(SH - h).toFixed(1)}" width="${sBarW.toFixed(1)}" height="${h.toFixed(1)}"/>`;
+}).join("");
+
+const panel = `  <aside class="ship" aria-labelledby="ship-h">
+    <p class="ship-claim" id="ship-h"><span class="st st-ok">SHIPPED</span> How I built and deployed this site, from an empty folder to a public URL, in under 25 minutes.</p>
+    <svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the ${SHIP_LABEL} build.">${spark}</svg>
+    <p class="ship-stats"><span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped <a href="#timeline">read the build log</a></p>
+  </aside>`;
+
 // ---- story ----
 const storyRows = STORY.map(([when, lead, text]) =>
   `      <tr><td class="tl-when">${when}</td><td class="tl-what"><b>${lead}</b> ${text}</td></tr>`
@@ -158,8 +173,7 @@ const toolList = [...tools.entries()].sort((a, b) => b[1] - a[1])
 const section = `  <section id="timeline" aria-labelledby="h-tl">
     <h2 id="h-tl" class="cmd"><span class="prompt">$</span> <span class="c">journalctl -u build --since ${T0} --until ${SHIP}</span></h2>
 
-    <p class="tl-headline"><span class="st st-ok">SHIPPED</span> Empty directory to a public URL in <span class="nb">${SHIP_LABEL}</span></p>
-    <p class="colo-lede">Built in a terminal with Claude Code, on a Thursday evening. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
+    <p class="colo-lede">Built in a terminal with Claude Code on a Thursday evening, from an empty folder to a public URL in <span class="nb">${SHIP_LABEL}</span>. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Everything below is read out of the session log; the timestamps are real.</p>
 
     ${svg}
     <p class="tl-legend"><span class="tl-key tl-key-out"></span>tokens written <span class="tl-key tl-key-think"></span>of which reasoning</p>
@@ -186,12 +200,15 @@ ${storyRows}
 
 const idx = path.join(ROOT, "public/index.html");
 let html = fs.readFileSync(idx, "utf8");
-const S = "  <!-- timeline:start -->", E = "  <!-- timeline:end -->";
-const block = `${S}\n${section}\n${E}`;
-if (html.includes(S)) {
-  html = html.replace(new RegExp(`${S}[\\s\\S]*?${E}`), block);
-} else {
-  html = html.replace('<main id="doc">\n', `<main id="doc">\n\n${block}\n`);
-}
+
+const write = (name, body, fallback) => {
+  const a = `  <!-- ${name}:start -->`, b = `  <!-- ${name}:end -->`;
+  const block = `${a}\n${body}\n${b}`;
+  if (html.includes(a)) html = html.replace(new RegExp(`${a}[\\s\\S]*?${b}`), () => block);
+  else html = fallback(block);
+};
+
+write("ship", panel, (block) => html.replace("  </header>\n", `  </header>\n\n${block}\n`));
+write("timeline", section, (block) => html.replace('  <footer class="foot">', `${block}\n\n  <footer class="foot">`));
 fs.writeFileSync(idx, html);
 console.log(`timeline: ${mins[0]}–${mins[mins.length - 1]}, ${total.turns} turns, ${total.calls} tool calls, ${(total.out/1000).toFixed(0)}k out, $${cost.toFixed(2)} at list rates`);
