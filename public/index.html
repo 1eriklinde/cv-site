@@ -270,6 +270,29 @@
   </section>
   <!-- timeline:end -->
 
+  <section id="phone" aria-labelledby="h-phone">
+    <h2 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h2>
+    <p class="colo-lede">The laptop is optional now. The same loop runs from a phone, because every part of it is already a URL: the repository, the tests, the deploy. Nothing in the chain needs a terminal.</p>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same 23 checks on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>from nothing</dt>
+      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
+      <dt>the one catch</dt>
+      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
+      <dt>why it holds up</dt>
+      <dd>Because this is plain files with no build step. There is nothing to compile, no toolchain to install and no lockfile to reconcile, so the tests finish in about a second. The slowest part of changing this page from a phone is typing the sentence that describes the change.</dd>
+    </dl>
+  </section>
+
   <footer class="foot">
     <p>Built as a static page and served from Cloudflare's edge. No trackers, no analytics, no cookies.</p>
   </footer>

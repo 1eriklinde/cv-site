@@ -226,7 +226,7 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
   .tags { margin-top: 0.6rem; }
   .skills { gap: 0.25rem 14px; }
   .contact li { margin-bottom: 0.25rem; }
-  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, .ship { display: none !important; }
+  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, #phone, .ship { display: none !important; }
   .typed::after { display: none; }
   .st-ok { border: 1px solid #000; }
   h2.cmd { margin: 1.2rem 0 0.6rem; page-break-after: avoid; }
