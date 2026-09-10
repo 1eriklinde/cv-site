@@ -82,15 +82,20 @@ npx wrangler login --device --scopes account:read user:read \
 
 ## CI/CD
 
-`.github/workflows/deploy.yml` runs on every push and pull request: `npm ci`,
-then `npm test`. A push to `main` that passes the tests deploys to Cloudflare;
-a failing test stops the deploy before it starts.
+`.github/workflows/deploy.yml` has three jobs. `test` runs the suite on every
+push and pull request. `preview` uploads the build as a new Worker version and
+puts its preview URL in the run summary — production is untouched. `promote`
+sits behind the `production` environment, which requires an approval, and
+deploys that exact version once you give it.
 
-The deploy step is skipped, rather than failed, when no `CLOUDFLARE_API_TOKEN`
-secret exists — so the pipeline is a green test gate out of the box and becomes
-push-to-deploy the moment you add the token. There is no CLI path to minting
-that first token: wrangler's OAuth scopes do not include API-token management,
-so it has to come from the dashboard.
+So a push never changes the live site on its own: it stages one, and waits.
+Approving works from the GitHub mobile app, which is what makes reviewing a
+change from a phone practical.
+
+Both Cloudflare steps skip, rather than fail, when no `CLOUDFLARE_API_TOKEN`
+secret exists — the pipeline stays green as a test gate until you add one.
+There is no CLI path to minting that first token: wrangler's OAuth scopes do
+not include API-token management, so it comes from the dashboard.
 
 Two repository secrets:
 

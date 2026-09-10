@@ -160,9 +160,9 @@ const REPO = "github.com/1eriklinde/cv-site";
 
 // The pipeline lives inside the phone story now — it does not survive a narrow
 // teaser column.
-const PW = 560, PH = 34, pBox = 120, pGap = (PW - 4 * pBox) / 3;
-const pNodes = ["git push", "npm test", "wrangler deploy", "live"];
-const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="Pipeline: a push runs the tests, and only a passing run deploys to Cloudflare's edge.">` +
+const pNodes = ["git push", "npm test", "preview URL", "you accept", "live"];
+const PW = 620, PH = 34, pBox = 104, pGap = (PW - pNodes.length * pBox) / (pNodes.length - 1);
+const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="Pipeline: a push runs the tests, a passing run publishes a preview URL, and production updates only once a person accepts it.">` +
   pNodes.map((n, i) => {
     const x = i * (pBox + pGap);
     const last = i === pNodes.length - 1;
@@ -188,7 +188,7 @@ const panel = `  <div class="cards">
     <aside class="ship ship-phone" aria-labelledby="card-2">
       <p class="ship-kicker"><span class="st st-alt">FROM A PHONE</span></p>
       <p class="ship-claim" id="card-2">The slowest part of changing this page is typing the sentence that describes the change.</p>
-      <p class="ship-stats">The repository, the tests and the deploy are all URLs. An edit described on a train is live at the edge fifteen seconds later.</p>
+      <p class="ship-stats">The repository, the tests, the preview and the deploy are all URLs. Describe a change on a train, look at the preview, accept it.</p>
       <p class="ship-more"><a href="#onwards">read how</a></p>
     </aside>
 

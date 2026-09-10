@@ -153,9 +153,8 @@ git init -b main && git add -A && git commit -m "CV site"
 gh repo create cv-site --public --source=. --remote=origin --push
 ```
 
-`.github/workflows/deploy.yml` — the test step gates the deploy, and the deploy
-step skips rather than fails when no token is configured, so the pipeline is
-green from the first push:
+`.github/workflows/deploy.yml` runs the tests, stages a preview, and waits for a
+human before production changes. Three jobs: `test`, `preview`, `promote`.
 
 ```yaml
 name: deploy
@@ -165,8 +164,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm }
+      - run: npm ci
+      - run: npm test
+
+  preview:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      has-token: ${{ steps.gate.outputs.has-token }}
     env:
       HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
@@ -174,14 +186,54 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: npm }
       - run: npm ci
-      - run: npm test
-      - name: Deploy to Cloudflare
-        if: env.HAS_CF_TOKEN == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - id: gate
+        run: echo "has-token=$HAS_CF_TOKEN" >> "$GITHUB_OUTPUT"
+      - if: env.HAS_CF_TOKEN == 'true'
+        id: upload
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload
+      - if: env.HAS_CF_TOKEN == 'true'
+        env:
+          OUT: ${{ steps.upload.outputs.command-output }}
+        run: |
+          URL=$(printf '%s' "$OUT" | grep -oE 'https://[a-z0-9]+-[a-z0-9-]+\.workers\.dev' | head -1)
+          printf '### Preview ready\n\n%s\n' "$URL" >> "$GITHUB_STEP_SUMMARY"
+
+  promote:
+    needs: preview
+    if: needs.preview.outputs.has-token == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: production          # protected: requires approval
+      url: https://<your-site>
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm }
+      - run: npm ci
+      - env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node tools/promote.mjs
 ```
+
+The gate is a GitHub environment with a required reviewer. Protection rules are
+free on public repositories, and the approval button works in the GitHub mobile
+app — which is what makes "check it, then accept it" practical from a phone:
+
+```bash
+GH_UID=$(gh api user --jq .id)   # note: do not use $UID, it is read-only in zsh
+printf '{"wait_timer":0,"prevent_self_review":false,"reviewers":[{"type":"User","id":%s}],"deployment_branch_policy":null}\n' "$GH_UID" > env.json
+gh api -X PUT repos/<owner>/<repo>/environments/production --input env.json
+```
+
+`tools/promote.mjs` reads `wrangler versions list --json`, takes the newest
+upload and deploys it. Do not reach for `wrangler versions deploy --yes` on its
+own: `--yes` accepts prompts but still requires a version id, and exits with an
+error rather than choosing one.
 
 Two repository secrets close the loop:
 

@@ -7,36 +7,92 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
-    env:
-      # Secrets can't be read in `if:` directly, so resolve to a boolean here.
-      HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-
       - run: npm ci
-
-      # The gate: a failure here stops the deploy step below from running.
       - name: Test the command line
         run: npm test
 
-      - name: Deploy to Cloudflare
-        if: env.HAS_CF_TOKEN == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+  # Uploads the build as a new Worker version and prints its preview URL.
+  # Production keeps serving the previous version until the promote job is approved.
+  preview:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      has-token: ${{ steps.gate.outputs.has-token }}
+      url: ${{ steps.url.outputs.url }}
+    env:
+      HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+
+      - id: gate
+        run: echo "has-token=$HAS_CF_TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Upload a preview version
+        if: env.HAS_CF_TOKEN == 'true'
+        id: upload
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload
 
-      - name: Deploy skipped
+      - name: Publish the preview URL
+        if: env.HAS_CF_TOKEN == 'true'
+        id: url
+        env:
+          OUT: ${{ steps.upload.outputs.command-output }}
+        run: |
+          URL=$(printf '%s' "$OUT" | grep -oE 'https://[a-z0-9]+-[a-z0-9-]+\.workers\.dev' | head -1)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Preview ready"
+            echo ""
+            echo "$URL"
+            echo ""
+            echo "Production is unchanged until the promote job is approved."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: No token configured
         if: env.HAS_CF_TOKEN != 'true'
         run: |
-          echo "Tests passed. Deploy skipped: no CLOUDFLARE_API_TOKEN secret set."
-          echo "Add one to turn this into push-to-deploy:"
-          echo "  gh secret set CLOUDFLARE_API_TOKEN"
-          echo "Until then, deploy from your machine with: npm run deploy"
+          {
+            echo "### Tests passed; nothing was staged"
+            echo ""
+            echo 'Set CLOUDFLARE_API_TOKEN to enable preview deploys:'
+            echo '`gh secret set CLOUDFLARE_API_TOKEN`'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Gated on the `production` environment, which requires a human to approve.
+  promote:
+    needs: preview
+    if: needs.preview.outputs.has-token == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://cv.1eriklinde.workers.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Promote the newest version to production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: node tools/promote.mjs
