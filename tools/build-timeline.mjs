@@ -158,8 +158,8 @@ const spark = mins.map((m, i) => {
 
 const REPO = "github.com/1eriklinde/cv-site";
 
-// Compact pipeline for the panel. The colophon carries the annotated version;
-// this one is the summary, so it drops the captions.
+// The pipeline lives inside the phone story now — it does not survive a narrow
+// teaser column.
 const PW = 560, PH = 34, pBox = 120, pGap = (PW - 4 * pBox) / 3;
 const pNodes = ["git push", "npm test", "wrangler deploy", "live"];
 const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="Pipeline: a push runs the tests, and only a passing run deploys to Cloudflare's edge.">` +
@@ -172,15 +172,32 @@ const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-la
       `<g class="pipe-line"><path d="M${(x + pBox + 4).toFixed(1)} 17 H${(x + pBox + pGap - 7).toFixed(1)}"/>` +
       `<path d="M${(x + pBox + pGap - 12).toFixed(1)} 12.5 l5 4.5 -5 4.5"/></g>`;
     return box + txt + arrow;
-  }).join("") + `</svg>`;
+  }).join("");
 
-const panel = `  <aside class="ship" aria-labelledby="ship-h">
-    <p class="ship-claim" id="ship-h"><span class="st st-ok">SHIPPED</span> How I built and deployed this site, from an empty folder to a public URL, in under 25 minutes, for free.</p>
-    <p class="ship-stats"><svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg> <span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
-    ${pipeline}
-    <p class="ship-stats"><a href="https://${REPO}">${REPO}</a> — a push to main runs the tests, and deploys only if they pass.</p>
-    <p class="ship-stats"><b>€0</b> to host, deploy and run: Cloudflare's free plan and GitHub Actions. <a href="#timeline">read the build log</a></p>
-  </aside>`;
+// One teaser card per article.
+const panel = `  <div class="cards">
+    <aside class="ship ship-build" aria-labelledby="card-1">
+      <p class="ship-kicker"><span class="st st-ok">SHIPPED</span></p>
+      <p class="ship-claim" id="card-1">Empty folder to a public URL in under 25 minutes, for free.</p>
+      <svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg>
+      <p class="ship-stats"><span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
+      <p class="ship-more"><a href="#build">read the build log</a></p>
+    </aside>
+
+    <aside class="ship ship-phone" aria-labelledby="card-2">
+      <p class="ship-kicker"><span class="st st-alt">FROM A PHONE</span></p>
+      <p class="ship-claim" id="card-2">The slowest part of changing this page is typing the sentence that describes the change.</p>
+      <p class="ship-stats">The repository, the tests and the deploy are all URLs. An edit described on a train is live at the edge fifteen seconds later.</p>
+      <p class="ship-more"><a href="#onwards">read how</a></p>
+    </aside>
+
+    <aside class="ship ship-yours" aria-labelledby="card-3">
+      <p class="ship-kicker"><span class="st st-plain">BUILD YOUR OWN</span></p>
+      <p class="ship-claim" id="card-3">Point your Claude at the recipe and it builds yours — free, from a phone or a laptop.</p>
+      <p class="ship-stats">It interviews you and reads your CV first, then designs for you. <a href="https://${REPO}">${REPO}</a></p>
+      <p class="ship-more"><a href="#yours">read the guide</a></p>
+    </aside>
+  </div>`;
 
 // ---- story ----
 const storyRows = STORY.map(([when, lead, text]) =>
@@ -229,6 +246,7 @@ const write = (name, body, fallback) => {
 };
 
 write("ship", panel, (block) => html.replace("  </header>\n", `  </header>\n\n${block}\n`));
+write("pipeline", `    ${pipeline}`, (block) => html);
 write("timeline", section, (block) => html.replace('  <footer class="foot">', `${block}\n\n  <footer class="foot">`));
 fs.writeFileSync(idx, html);
 console.log(`timeline: ${mins[0]}–${mins[mins.length - 1]}, ${total.turns} turns, ${total.calls} tool calls, ${(total.out/1000).toFixed(0)}k out, $${cost.toFixed(2)} at list rates`);

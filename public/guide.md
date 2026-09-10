@@ -9,24 +9,48 @@ Written from a session that did exactly this in 24 minutes. The gotchas near
 the bottom are the ones that actually cost time — read them before starting,
 not after.
 
+## This is a recipe, not a template
+
+Do not reproduce the site this guide came from. Its terminal styling, its
+status-line vocabulary and its Nagios-plugin hero were chosen because the person
+it belongs to runs monitoring for a fleet of Linux hosts; on anyone else they
+are fancy dress. A thousand identical dark terminal CVs would be worth less than
+one page that looks like the person it describes.
+
+What to carry over: plain files, no build step, a screenshot before shipping,
+tests on anything with behaviour, a strict CSP, and the deploy pipeline. What to
+decide fresh, every time: the content, the framing, the typography, the palette,
+the structure, and what the page leads with.
+
+So before writing anything, interview the person and read their CV.
+
 ## What the person needs
 
 Three free accounts and a browser: GitHub, Cloudflare, and Claude. No payment
 card, no domain, no server.
 
-## 1. Ask before building
+## 1. Interview first, build second
 
-Get these answered before writing code. They change the output more than any
-technical decision:
+Read their CV in full, then get these answered before writing code. They change
+the output more than any technical decision does:
 
-- Whose CV is it, and what roles are they targeting? Content that reads as
-  "digital signage technician" versus "IT operations engineer" is the same
-  history framed twice.
-- What should the design be? A CV site is a design artefact. Pick a direction
-  deliberately rather than defaulting to a centred card with a serif heading.
-- What contact details should be public? Email and links, usually. A phone
-  number on a crawlable page is a spam magnet, and if the CV PDF carries one,
-  serving that PDF publicly leaks it anyway.
+- **Who is this person and what are they going for?** Ask what roles they want
+  next, not just what they have done. The same history framed two ways reads as
+  two different candidates — one CV in this project's own history led with
+  display hardware and was reframed around infrastructure operations, and that
+  single decision changed more of the page than every styling choice combined.
+- **What should it look like, and why that?** A CV site is a design artefact.
+  Derive the direction from their field, their materials, their vernacular —
+  then say out loud why it suits them. If the honest answer is "because the
+  example did it that way", pick again.
+- **What should the page lead with?** The most characteristic thing about their
+  work, in whatever form fits: a number, a claim, an artefact, a demo.
+- **Which contact details should be public?** Email and links, usually. A phone
+  number on a crawlable page is a spam magnet — and if their CV PDF carries one,
+  serving that PDF publicly leaks it just as effectively.
+
+Propose your reading of the answers and get agreement before building. Guessing
+at framing wastes more time than any bug in this guide.
 
 ## 2. Build the site
 

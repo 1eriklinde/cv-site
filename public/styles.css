@@ -226,7 +226,7 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
   .tags { margin-top: 0.6rem; }
   .skills { gap: 0.25rem 14px; }
   .contact li { margin-bottom: 0.25rem; }
-  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #build, .ship { display: none !important; }
+  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, .story, .cards { display: none !important; }
   .typed::after { display: none; }
   .st-ok { border: 1px solid #000; }
   h2.cmd { margin: 1.2rem 0 0.6rem; page-break-after: avoid; }
@@ -254,75 +254,46 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .dg-s { fill: var(--dimmer); font: 400 11px var(--mono); }
 .dg-line path { stroke: var(--dimmer); stroke-width: 1.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- ship panel ---------- */
-.ship {
+/* ---------- article teaser cards ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+  gap: 14px;
   margin: 2.8rem 0 0;
-  padding: 15px 18px 16px;
+  /* three cards need more room than the reading measure allows */
+  width: min(96vw, 940px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.ship {
+  display: flex; flex-direction: column;
+  padding: 14px 16px 15px;
   background: var(--bg-2);
   border: 1px solid var(--line);
-  border-left: 2px solid var(--ok);
   border-radius: 2px;
-  max-width: 66ch;
 }
-.ship-claim { margin: 0 0 0.9rem; font-size: 15px; font-weight: 700; line-height: 1.55; }
-.ship-claim .st { font-size: 0.72em; margin-right: 9px; }
-.spark { display: inline-block; width: 118px; height: 20px; vertical-align: -4px; margin-right: 9px; }
+.ship-build { border-left: 2px solid var(--ok); }
+.ship-phone { border-left: 2px solid var(--accent); }
+.ship-kicker { margin: 0 0 0.75rem; }
+.ship-kicker .st { font-size: 10.5px; letter-spacing: 0.06em; }
+.st-alt { background: var(--accent); color: var(--bg); }
+.st-plain { background: var(--dim); color: var(--bg); }
+.ship-yours { border-left: 2px solid var(--dim); }
+.ship-claim { margin: 0 0 0.85rem; font-size: 14.5px; font-weight: 700; line-height: 1.5; }
+.spark { display: block; width: 118px; height: 20px; margin: 0 0 0.8rem; }
 .spark rect { fill: var(--dim); opacity: 0.55; }
-.ship-stats { margin: 0 0 1rem; font-size: 12.5px; color: var(--dimmer); line-height: 1.75; }
-.ship-stats:last-child { margin-bottom: 0; }
+.ship-stats { margin: 0 0 0.9rem; font-size: 12.5px; color: var(--dimmer); line-height: 1.7; }
 .ship-stats b { color: var(--fg); }
-.pipe { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 0 1rem; }
+.ship-more { margin: auto 0 0; padding-top: 0.3rem; font-size: 12.5px; }
+.ship-more a::after { content: " \2192"; }
+
+/* ---------- pipeline ---------- */
+.pipe { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 0 2.2rem; }
 .pipe-box { fill: none; stroke: var(--line); stroke-width: 1; }
 .pipe-box-live { fill: var(--ok); stroke: none; }
 .pipe-t { fill: var(--dim); font: 400 11px var(--mono); }
 .pipe-t-live { fill: var(--ok-ink); font-weight: 700; }
 .pipe-line path { stroke: var(--dimmer); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-
-
-/* ---------- the build story, as its own article ---------- */
-.story {
-  margin-top: 7rem;
-  padding-top: 3.2rem;
-  border-top: 1px solid var(--line);
-  scroll-margin-top: calc(var(--sl-h) + 16px);
-}
-.story-head { margin-bottom: 1rem; }
-.story-kicker { margin: 0 0 1.6rem; font-size: 15px; color: var(--dim); }
-.story-title {
-  margin: 0 0 1rem;
-  font-size: clamp(21px, 3.2vw, 25px); /* stays under the h1 */
-  font-weight: 700; line-height: 1.35; letter-spacing: -0.012em;
-}
-.story-standfirst { margin: 0; max-width: 68ch; color: var(--dim); }
-.story > section:first-of-type h3.cmd { margin-top: 3.2rem; }
-
-/* ---------- phone story lead ---------- */
-.phone-lead {
-  margin: 0 0 1.6rem;
-  max-width: 30ch;
-  font-size: clamp(18px, 3.0vw, 24px); /* stays under the hero: nothing outranks the name */
-  font-weight: 700; line-height: 1.38; letter-spacing: -0.012em;
-  color: var(--fg);
-}
-
-/* ---------- paste-this block ---------- */
-.paste { margin: 0 0 2.4rem; max-width: 66ch; }
-.paste-label { margin: 0 0 0.7rem; font-size: 13px; color: var(--dim); }
-.paste-box {
-  margin: 0; padding: 14px 16px; overflow-x: auto;
-  background: var(--bg-2); border: 1px solid var(--line);
-  border-left: 2px solid var(--accent); border-radius: 2px;
-  font: 400 13px/1.65 var(--mono); color: var(--fg);
-  white-space: pre-wrap; word-break: break-word;
-}
-.copy {
-  margin-top: 0.7rem; padding: 5px 12px;
-  background: none; color: var(--dim);
-  border: 1px solid var(--line); border-radius: 2px;
-  font: 400 12px var(--mono); cursor: pointer;
-}
-.copy:hover { color: var(--fg); border-color: var(--dimmer); }
-.copy-done { color: var(--ok); border-color: var(--ok); }
 
 /* ---------- build timeline ---------- */
 .timeline { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 0 0.6rem; overflow: visible; }

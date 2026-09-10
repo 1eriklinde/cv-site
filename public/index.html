@@ -36,13 +36,29 @@
   </header>
 
   <!-- ship:start -->
-  <aside class="ship" aria-labelledby="ship-h">
-    <p class="ship-claim" id="ship-h"><span class="st st-ok">SHIPPED</span> How I built and deployed this site, from an empty folder to a public URL, in under 25 minutes, for free.</p>
-    <p class="ship-stats"><svg class="spark" viewBox="0 0 168 26" role="img" aria-label="Tokens generated per minute across the build."><rect x="0.0" y="17.9" width="5.5" height="8.1"/><rect x="7.0" y="20.2" width="5.5" height="5.8"/><rect x="14.0" y="10.8" width="5.5" height="15.2"/><rect x="21.0" y="17.9" width="5.5" height="8.1"/><rect x="28.0" y="5.5" width="5.5" height="20.5"/><rect x="35.0" y="9.9" width="5.5" height="16.1"/><rect x="42.0" y="0.0" width="5.5" height="26.0"/><rect x="49.0" y="13.0" width="5.5" height="13.0"/><rect x="56.0" y="4.7" width="5.5" height="21.3"/><rect x="63.0" y="15.4" width="5.5" height="10.6"/><rect x="70.0" y="20.6" width="5.5" height="5.4"/><rect x="77.0" y="12.7" width="5.5" height="13.3"/><rect x="84.0" y="15.8" width="5.5" height="10.2"/><rect x="91.0" y="9.6" width="5.5" height="16.4"/><rect x="98.0" y="10.7" width="5.5" height="15.3"/><rect x="105.0" y="11.2" width="5.5" height="14.8"/><rect x="112.0" y="10.5" width="5.5" height="15.5"/><rect x="119.0" y="12.1" width="5.5" height="13.9"/><rect x="126.0" y="14.1" width="5.5" height="11.9"/><rect x="133.0" y="24.5" width="5.5" height="1.5"/><rect x="140.0" y="18.8" width="5.5" height="7.2"/><rect x="147.0" y="23.0" width="5.5" height="3.0"/><rect x="154.0" y="23.3" width="5.5" height="2.7"/><rect x="161.0" y="22.2" width="5.5" height="3.8"/></svg> <span class="nb">23 min 55 s</span> · 167 model turns · 74 tool calls · three bugs caught before it shipped</p>
-    <svg class="pipe" viewBox="0 0 560 34" role="img" aria-label="Pipeline: a push runs the tests, and only a passing run deploys to Cloudflare's edge."><rect class="pipe-box" x="0.0" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="60.0" y="21" text-anchor="middle">git push</text><g class="pipe-line"><path d="M124.0 17 H139.7"/><path d="M134.7 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="146.7" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="206.7" y="21" text-anchor="middle">npm test</text><g class="pipe-line"><path d="M270.7 17 H286.3"/><path d="M281.3 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="293.3" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="353.3" y="21" text-anchor="middle">wrangler deploy</text><g class="pipe-line"><path d="M417.3 17 H433.0"/><path d="M428.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box pipe-box-live" x="440.0" y="4" width="120" height="26" rx="2"/><text class="pipe-t pipe-t-live" x="500.0" y="21" text-anchor="middle">live</text></svg>
-    <p class="ship-stats"><a href="https://github.com/1eriklinde/cv-site">github.com/1eriklinde/cv-site</a> — a push to main runs the tests, and deploys only if they pass.</p>
-    <p class="ship-stats"><b>€0</b> to host, deploy and run: Cloudflare's free plan and GitHub Actions. <a href="#timeline">read the build log</a></p>
-  </aside>
+  <div class="cards">
+    <aside class="ship ship-build" aria-labelledby="card-1">
+      <p class="ship-kicker"><span class="st st-ok">SHIPPED</span></p>
+      <p class="ship-claim" id="card-1">Empty folder to a public URL in under 25 minutes, for free.</p>
+      <svg class="spark" viewBox="0 0 168 26" role="img" aria-label="Tokens generated per minute across the build."><rect x="0.0" y="17.9" width="5.5" height="8.1"/><rect x="7.0" y="20.2" width="5.5" height="5.8"/><rect x="14.0" y="10.8" width="5.5" height="15.2"/><rect x="21.0" y="17.9" width="5.5" height="8.1"/><rect x="28.0" y="5.5" width="5.5" height="20.5"/><rect x="35.0" y="9.9" width="5.5" height="16.1"/><rect x="42.0" y="0.0" width="5.5" height="26.0"/><rect x="49.0" y="13.0" width="5.5" height="13.0"/><rect x="56.0" y="4.7" width="5.5" height="21.3"/><rect x="63.0" y="15.4" width="5.5" height="10.6"/><rect x="70.0" y="20.6" width="5.5" height="5.4"/><rect x="77.0" y="12.7" width="5.5" height="13.3"/><rect x="84.0" y="15.8" width="5.5" height="10.2"/><rect x="91.0" y="9.6" width="5.5" height="16.4"/><rect x="98.0" y="10.7" width="5.5" height="15.3"/><rect x="105.0" y="11.2" width="5.5" height="14.8"/><rect x="112.0" y="10.5" width="5.5" height="15.5"/><rect x="119.0" y="12.1" width="5.5" height="13.9"/><rect x="126.0" y="14.1" width="5.5" height="11.9"/><rect x="133.0" y="24.5" width="5.5" height="1.5"/><rect x="140.0" y="18.8" width="5.5" height="7.2"/><rect x="147.0" y="23.0" width="5.5" height="3.0"/><rect x="154.0" y="23.3" width="5.5" height="2.7"/><rect x="161.0" y="22.2" width="5.5" height="3.8"/></svg>
+      <p class="ship-stats"><span class="nb">23 min 55 s</span> · 167 model turns · 74 tool calls · three bugs caught before it shipped</p>
+      <p class="ship-more"><a href="#build">read the build log</a></p>
+    </aside>
+
+    <aside class="ship ship-phone" aria-labelledby="card-2">
+      <p class="ship-kicker"><span class="st st-alt">FROM A PHONE</span></p>
+      <p class="ship-claim" id="card-2">The slowest part of changing this page is typing the sentence that describes the change.</p>
+      <p class="ship-stats">The repository, the tests and the deploy are all URLs. An edit described on a train is live at the edge fifteen seconds later.</p>
+      <p class="ship-more"><a href="#onwards">read how</a></p>
+    </aside>
+
+    <aside class="ship ship-yours" aria-labelledby="card-3">
+      <p class="ship-kicker"><span class="st st-plain">BUILD YOUR OWN</span></p>
+      <p class="ship-claim" id="card-3">Point your Claude at the recipe and it builds yours — free, from a phone or a laptop.</p>
+      <p class="ship-stats">It interviews you and reads your CV first, then designs for you. <a href="https://github.com/1eriklinde/cv-site">github.com/1eriklinde/cv-site</a></p>
+      <p class="ship-more"><a href="#yours">read the guide</a></p>
+    </aside>
+  </div>
   <!-- ship:end -->
 
   <section id="skills" aria-labelledby="h-skills">
@@ -178,11 +194,12 @@
 
 
 
+
   <article id="build" class="story">
     <header class="story-head">
-      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cd build &amp;&amp; cat README.md</span></p>
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cat build/README.md</span></p>
       <h2 class="story-title">How this site was built</h2>
-      <p class="story-standfirst">An empty folder to a public URL in under 25 minutes, for free — including the four things that went wrong on the way, what it means that the laptop is now optional, and the recipe to do the same thing yourself.</p>
+      <p class="story-standfirst">An empty folder to a public URL in under 25 minutes, for nothing. It went quickly not because nothing went wrong — four things did — but because each one surfaced within a minute of being introduced. Every number below is read out of the session log.</p>
     </header>
 
   <!-- timeline:start -->
@@ -232,59 +249,6 @@
   </section>
   <!-- timeline:end -->
 
-  <section id="phone" aria-labelledby="h-phone">
-    <h3 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h3>
-    <p class="phone-lead">The slowest part of changing this page from a phone is typing the sentence that describes the change.</p>
-    <p class="colo-lede">The laptop is optional now. Every part of the loop is already a URL — the repository, the tests, the deploy — so the whole thing runs from a train, and nothing in the chain needs a terminal.</p>
-
-    <table class="tl-table">
-      <tbody>
-        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
-        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
-        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
-        <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
-      </tbody>
-    </table>
-
-    <dl class="skills">
-      <dt>from nothing</dt>
-      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
-      <dt>the one catch</dt>
-      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
-      <dt>why it holds up</dt>
-      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
-    </dl>
-  </section>
-
-  <section id="yours" aria-labelledby="h-yours">
-    <h3 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h3>
-    <p class="colo-lede">Everything above is a recipe, and the recipe is published. Point your own Claude at it and it will build you the same thing — your content, your design direction, your Cloudflare account.</p>
-
-    <div class="paste">
-      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
-      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
-build and deploy my CV site. Ask me the questions in step 1 first.
-My CV is attached.</code></pre>
-      <button type="button" class="copy" data-copy="own-prompt">copy</button>
-    </div>
-
-    <table class="tl-table">
-      <tbody>
-        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
-        <tr><td class="tl-when">2</td><td class="tl-what"><b>It asks you three questions.</b> Whose CV, aimed at what kind of role, and which contact details should be public. The guide puts these first on purpose — framing changes the result more than any technical choice does.</td></tr>
-        <tr><td class="tl-when">3</td><td class="tl-what"><b>It builds, looks, and tests.</b> Plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
-        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
-      </tbody>
-    </table>
-
-    <dl class="skills">
-      <dt>what you need</dt>
-      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely. No card, no domain, no server.</dd>
-      <dt>why it works on a phone</dt>
-      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
-    </dl>
-  </section>
-
   <section id="colophon" aria-labelledby="h-colo">
     <h3 id="h-colo" class="cmd"><span class="prompt">$</span> <span class="c">cat colophon.md</span></h3>
     <p class="colo-lede">This page is the same kind of thing I build at work, scaled down: plain files, a test gate, and a deploy you can watch happen. No framework, no build step, nothing to keep patched.</p>
@@ -331,6 +295,78 @@ My CV is attached.</code></pre>
       <dd><code>default-src 'none'</code> CSP, no inline scripts or styles, no third-party requests at all. The typeface is served from this origin, so nothing you do here is visible to anyone else.</dd>
       <dt>cost</dt>
       <dd>€0. Cloudflare Workers free plan; static asset requests are unmetered.</dd>
+    </dl>
+  </section>
+  </article>
+
+
+  <article id="onwards" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cat build/onwards.md</span></p>
+      <h2 class="story-title">The slowest part of changing this page from a phone is typing the sentence that describes the change.</h2>
+      <p class="story-standfirst">The laptop is optional now: the repository, the tests and the deploy are all URLs, so an edit described on a train is live at the edge fifteen seconds later. No terminal, no laptop, and nothing in the chain that a phone is bad at.</p>
+    </header>
+
+  <section id="phone" aria-labelledby="h-phone">
+    <h3 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h3>
+    <!-- pipeline:start -->
+    <svg class="pipe" viewBox="0 0 560 34" role="img" aria-label="Pipeline: a push runs the tests, and only a passing run deploys to Cloudflare's edge."><rect class="pipe-box" x="0.0" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="60.0" y="21" text-anchor="middle">git push</text><g class="pipe-line"><path d="M124.0 17 H139.7"/><path d="M134.7 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="146.7" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="206.7" y="21" text-anchor="middle">npm test</text><g class="pipe-line"><path d="M270.7 17 H286.3"/><path d="M281.3 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="293.3" y="4" width="120" height="26" rx="2"/><text class="pipe-t" x="353.3" y="21" text-anchor="middle">wrangler deploy</text><g class="pipe-line"><path d="M417.3 17 H433.0"/><path d="M428.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box pipe-box-live" x="440.0" y="4" width="120" height="26" rx="2"/><text class="pipe-t pipe-t-live" x="500.0" y="21" text-anchor="middle">live</text>
+  <!-- pipeline:end -->
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>from nothing</dt>
+      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
+      <dt>the one catch</dt>
+      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
+      <dt>why it holds up</dt>
+      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
+    </dl>
+  </section>
+
+  </article>
+  <article id="yours" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cat build/build-your-own.md</span></p>
+      <h2 class="story-title">A guide for building your own, free, from anywhere</h2>
+      <p class="story-standfirst">The whole recipe is published as a file an agent can read. Point Claude Code at it — from an iPhone, a laptop, a browser tab on someone else's machine — and it will interview you, read your CV, and design a site for the person it describes. It is a recipe, not a template: a copy of this page would be worth less to you than the twenty minutes it saved.</p>
+    </header>
+
+  <section id="recipe" aria-labelledby="h-yours">
+    <h3 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h3>
+    <p class="colo-lede">The recipe is published, and it is a recipe rather than a template. Pointed at it, Claude Code will interview you about your work, read your CV, and design something for that — a different look, your framing, your Cloudflare account. A copy of this page would be worth less than the twenty minutes it saved you.</p>
+
+    <div class="paste">
+      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
+      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
+build and deploy my CV site. Interview me first and read my CV,
+then design something that fits me — not a copy of that site.
+My CV is attached.</code></pre>
+      <button type="button" class="copy" data-copy="own-prompt">copy</button>
+    </div>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It interviews you.</b> Whose CV, aimed at what kind of role, which contact details should be public, and what the thing should look like. The guide puts this before any code on purpose: framing changed this page more than any technical decision did, and the answers are different for everybody.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>It designs, builds, looks and tests.</b> A visual direction chosen for you rather than borrowed from here, then plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>what you need</dt>
+      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely. No card, no domain, no server.</dd>
+      <dt>why it works on a phone</dt>
+      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
     </dl>
   </section>
   </article>
