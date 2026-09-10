@@ -29,6 +29,12 @@ So before writing anything, interview the person and read their CV.
 Three free accounts and a browser: GitHub, Cloudflare, and Claude. No payment
 card, no domain, no server.
 
+Signing up is mostly clicking through. Where a service offers "continue with
+Google", take it rather than filling in a form. GitHub is the exception — it has
+no social login, so it wants an email address and a password, or a passkey.
+If the person does not have these accounts yet, walk them through creating them
+before anything else; it is the only part of this recipe you cannot do for them.
+
 ## 1. Interview first, build second
 
 Read their CV in full, then get these answered before writing code. They change
