@@ -156,10 +156,30 @@ const spark = mins.map((m, i) => {
   return `<rect x="${(i * sSlot).toFixed(1)}" y="${(SH - h).toFixed(1)}" width="${sBarW.toFixed(1)}" height="${h.toFixed(1)}"/>`;
 }).join("");
 
+const REPO = "github.com/1eriklinde/cv-site";
+
+// Compact pipeline for the panel. The colophon carries the annotated version;
+// this one is the summary, so it drops the captions.
+const PW = 560, PH = 34, pBox = 120, pGap = (PW - 4 * pBox) / 3;
+const pNodes = ["git push", "npm test", "wrangler deploy", "live"];
+const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-label="Pipeline: a push runs the tests, and only a passing run deploys to Cloudflare's edge.">` +
+  pNodes.map((n, i) => {
+    const x = i * (pBox + pGap);
+    const last = i === pNodes.length - 1;
+    const box = `<rect class="pipe-box${last ? " pipe-box-live" : ""}" x="${x.toFixed(1)}" y="4" width="${pBox}" height="26" rx="2"/>`;
+    const txt = `<text class="pipe-t${last ? " pipe-t-live" : ""}" x="${(x + pBox / 2).toFixed(1)}" y="21" text-anchor="middle">${n}</text>`;
+    const arrow = last ? "" :
+      `<g class="pipe-line"><path d="M${(x + pBox + 4).toFixed(1)} 17 H${(x + pBox + pGap - 7).toFixed(1)}"/>` +
+      `<path d="M${(x + pBox + pGap - 12).toFixed(1)} 12.5 l5 4.5 -5 4.5"/></g>`;
+    return box + txt + arrow;
+  }).join("") + `</svg>`;
+
 const panel = `  <aside class="ship" aria-labelledby="ship-h">
-    <p class="ship-claim" id="ship-h"><span class="st st-ok">SHIPPED</span> How I built and deployed this site, from an empty folder to a public URL, in under 25 minutes.</p>
-    <svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the ${SHIP_LABEL} build.">${spark}</svg>
-    <p class="ship-stats"><span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped <a href="#timeline">read the build log</a></p>
+    <p class="ship-claim" id="ship-h"><span class="st st-ok">SHIPPED</span> How I built and deployed this site, from an empty folder to a public URL, in under 25 minutes, for free.</p>
+    <p class="ship-stats"><svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg> <span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
+    ${pipeline}
+    <p class="ship-stats"><a href="https://${REPO}">${REPO}</a> — a push to main runs the tests, and deploys only if they pass.</p>
+    <p class="ship-stats"><b>€0</b> to host, deploy and run: Cloudflare's free plan and GitHub Actions. <a href="#timeline">read the build log</a></p>
   </aside>`;
 
 // ---- story ----

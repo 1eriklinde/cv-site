@@ -266,10 +266,18 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 }
 .ship-claim { margin: 0 0 0.9rem; font-size: 15px; font-weight: 700; line-height: 1.55; }
 .ship-claim .st { font-size: 0.72em; margin-right: 9px; }
-.spark { display: block; width: 168px; height: 26px; margin: 0 0 0.8rem; }
+.spark { display: inline-block; width: 118px; height: 20px; vertical-align: -4px; margin-right: 9px; }
 .spark rect { fill: var(--dim); opacity: 0.55; }
-.ship-stats { margin: 0; font-size: 12.5px; color: var(--dimmer); line-height: 1.6; }
-.ship-stats a { margin-left: 8px; white-space: nowrap; }
+.ship-stats { margin: 0 0 1rem; font-size: 12.5px; color: var(--dimmer); line-height: 1.75; }
+.ship-stats:last-child { margin-bottom: 0; }
+.ship-stats b { color: var(--fg); }
+.pipe { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 0 1rem; }
+.pipe-box { fill: none; stroke: var(--line); stroke-width: 1; }
+.pipe-box-live { fill: var(--ok); stroke: none; }
+.pipe-t { fill: var(--dim); font: 400 11px var(--mono); }
+.pipe-t-live { fill: var(--ok-ink); font-weight: 700; }
+.pipe-line path { stroke: var(--dimmer); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
 
 /* ---------- build timeline ---------- */
 .timeline { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 0 0.6rem; overflow: visible; }
