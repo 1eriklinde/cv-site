@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      # Secrets can't be read in `if:` directly, so resolve to a boolean here.
+      HAS_CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -19,13 +22,21 @@ jobs:
 
       - run: npm ci
 
-      # The gate: a failure here stops the deploy step from running at all.
+      # The gate: a failure here stops the deploy step below from running.
       - name: Test the command line
         run: npm test
 
       - name: Deploy to Cloudflare
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: env.HAS_CF_TOKEN == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Deploy skipped
+        if: env.HAS_CF_TOKEN != 'true'
+        run: |
+          echo "Tests passed. Deploy skipped: no CLOUDFLARE_API_TOKEN secret set."
+          echo "Add one to turn this into push-to-deploy:"
+          echo "  gh secret set CLOUDFLARE_API_TOKEN"
+          echo "Until then, deploy from your machine with: npm run deploy"

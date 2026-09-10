@@ -68,6 +68,12 @@ npx wrangler login --device --scopes account:read user:read \
 then `npm test`. A push to `main` that passes the tests deploys to Cloudflare;
 a failing test stops the deploy before it starts.
 
+The deploy step is skipped, rather than failed, when no `CLOUDFLARE_API_TOKEN`
+secret exists — so the pipeline is a green test gate out of the box and becomes
+push-to-deploy the moment you add the token. There is no CLI path to minting
+that first token: wrangler's OAuth scopes do not include API-token management,
+so it has to come from the dashboard.
+
 Two repository secrets:
 
 | Secret | What |
