@@ -278,7 +278,7 @@
       <tbody>
         <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
         <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
-        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same 23 checks on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
         <tr><td class="tl-when">4</td><td class="tl-what"><b>It deploys itself.</b> A passing run hands the assets to wrangler, which uploads them to Cloudflare's edge. About fifteen seconds later the page is live in every region, and the phone goes back in the pocket.</td></tr>
       </tbody>
     </table>
@@ -290,6 +290,35 @@
       <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
       <dt>why it holds up</dt>
       <dd>Because this is plain files with no build step. There is nothing to compile, no toolchain to install and no lockfile to reconcile, so the tests finish in about a second. The slowest part of changing this page from a phone is typing the sentence that describes the change.</dd>
+    </dl>
+  </section>
+
+  <section id="yours" aria-labelledby="h-yours">
+    <h2 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h2>
+    <p class="colo-lede">Everything above is a recipe, and the recipe is published. Point your own Claude at it and it will build you the same thing — your content, your design direction, your Cloudflare account.</p>
+
+    <div class="paste">
+      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
+      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
+build and deploy my CV site. Ask me the questions in step 1 first.
+My CV is attached.</code></pre>
+      <button type="button" class="copy" data-copy="own-prompt">copy</button>
+    </div>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It asks you three questions.</b> Whose CV, aimed at what kind of role, and which contact details should be public. The guide puts these first on purpose — framing changes the result more than any technical choice does.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>It builds, looks, and tests.</b> Plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>what you need</dt>
+      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely. No card, no domain, no server.</dd>
+      <dt>why it works on a phone</dt>
+      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
     </dl>
   </section>
 

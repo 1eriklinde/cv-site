@@ -88,6 +88,19 @@ check("exit closes pane", !out.classList.contains("open") && out.textContent ===
 o = run("<script>alert(1)</script>");
 check("echo escapes html", !out.querySelector("script") && out.textContent.includes("<script>"));
 
+// copy button
+{
+  let copied = null;
+  window.navigator.clipboard = { writeText: async (t) => { copied = t; } };
+  const btn = doc.querySelector(".copy");
+  check("copy button exists", !!btn);
+  check("copy button targets a real element", !!doc.getElementById(btn.dataset.copy));
+  btn.dispatchEvent(new window.Event("click", { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 10));
+  check("copy writes the prompt to the clipboard", (copied || "").includes("guide.md"), String(copied).slice(0, 40));
+  check("copy button confirms", btn.textContent === "copied", btn.textContent);
+}
+
 // history + tab completion
 input.value = "help";
 doc.querySelector("#shell").dispatchEvent(new window.Event("submit", { bubbles: true, cancelable: true }));

@@ -226,7 +226,7 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
   .tags { margin-top: 0.6rem; }
   .skills { gap: 0.25rem 14px; }
   .contact li { margin-bottom: 0.25rem; }
-  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, #phone, .ship { display: none !important; }
+  .statusline, .shell, .shellout, .ribbon, .ribbon-axis, .foot, #colophon, #timeline, #phone, #yours, .ship { display: none !important; }
   .typed::after { display: none; }
   .st-ok { border: 1px solid #000; }
   h2.cmd { margin: 1.2rem 0 0.6rem; page-break-after: avoid; }
@@ -278,6 +278,25 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .pipe-t-live { fill: var(--ok-ink); font-weight: 700; }
 .pipe-line path { stroke: var(--dimmer); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
+
+/* ---------- paste-this block ---------- */
+.paste { margin: 0 0 2.4rem; max-width: 66ch; }
+.paste-label { margin: 0 0 0.7rem; font-size: 13px; color: var(--dim); }
+.paste-box {
+  margin: 0; padding: 14px 16px; overflow-x: auto;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-left: 2px solid var(--accent); border-radius: 2px;
+  font: 400 13px/1.65 var(--mono); color: var(--fg);
+  white-space: pre-wrap; word-break: break-word;
+}
+.copy {
+  margin-top: 0.7rem; padding: 5px 12px;
+  background: none; color: var(--dim);
+  border: 1px solid var(--line); border-radius: 2px;
+  font: 400 12px var(--mono); cursor: pointer;
+}
+.copy:hover { color: var(--fg); border-color: var(--dimmer); }
+.copy-done { color: var(--ok); border-color: var(--ok); }
 
 /* ---------- build timeline ---------- */
 .timeline { display: block; width: 100%; height: auto; max-width: 720px; margin: 0 0 0.6rem; overflow: visible; }

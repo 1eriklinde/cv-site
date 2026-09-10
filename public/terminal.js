@@ -197,6 +197,27 @@
     }
   });
 
+  /* ---------- copy buttons ---------- */
+  for (const btn of document.querySelectorAll(".copy")) {
+    btn.addEventListener("click", async () => {
+      const src = document.getElementById(btn.dataset.copy);
+      if (!src) return;
+      const text = src.textContent;
+      let ok = true;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        ok = false; // insecure context, denied permission, or no clipboard API
+      }
+      btn.textContent = ok ? "copied" : "select and copy";
+      btn.classList.toggle("copy-done", ok);
+      setTimeout(() => {
+        btn.textContent = "copy";
+        btn.classList.remove("copy-done");
+      }, 2000);
+    });
+  }
+
   /* "/" from anywhere focuses the prompt, like a real console */
   document.addEventListener("keydown", (e) => {
     if (e.key === "/" && document.activeElement !== input) {

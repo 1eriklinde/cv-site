@@ -13,6 +13,7 @@ public/            everything that ships
   theme.js         applies a saved theme before paint (no flash)
   404.html         terminal-styled not-found page
   _headers         CSP + security headers, Cloudflare syntax
+  guide.md         the recipe, written for someone else's agent to follow
   erik-linde-cv.pdf
   fonts/           self-hosted JetBrains Mono (no third-party requests)
 test/shell.test.mjs  jsdom tests for the command line
