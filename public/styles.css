@@ -279,6 +279,15 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .pipe-line path { stroke: var(--dimmer); stroke-width: 1.1; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 
 
+/* ---------- phone story lead ---------- */
+.phone-lead {
+  margin: 0 0 1.6rem;
+  max-width: 30ch;
+  font-size: clamp(18px, 3.0vw, 24px); /* stays under the hero: nothing outranks the name */
+  font-weight: 700; line-height: 1.38; letter-spacing: -0.012em;
+  color: var(--fg);
+}
+
 /* ---------- paste-this block ---------- */
 .paste { margin: 0 0 2.4rem; max-width: 66ch; }
 .paste-label { margin: 0 0 0.7rem; font-size: 13px; color: var(--dim); }

@@ -272,7 +272,8 @@
 
   <section id="phone" aria-labelledby="h-phone">
     <h2 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h2>
-    <p class="colo-lede">The laptop is optional now. The same loop runs from a phone, because every part of it is already a URL: the repository, the tests, the deploy. Nothing in the chain needs a terminal.</p>
+    <p class="phone-lead">The slowest part of changing this page from a phone is typing the sentence that describes the change.</p>
+    <p class="colo-lede">The laptop is optional now. Every part of the loop is already a URL — the repository, the tests, the deploy — so the whole thing runs from a train, and nothing in the chain needs a terminal.</p>
 
     <table class="tl-table">
       <tbody>
@@ -289,7 +290,7 @@
       <dt>the one catch</dt>
       <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
       <dt>why it holds up</dt>
-      <dd>Because this is plain files with no build step. There is nothing to compile, no toolchain to install and no lockfile to reconcile, so the tests finish in about a second. The slowest part of changing this page from a phone is typing the sentence that describes the change.</dd>
+      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
     </dl>
   </section>
 
