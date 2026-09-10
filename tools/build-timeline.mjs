@@ -174,29 +174,41 @@ const pipeline = `<svg class="pipe" viewBox="0 0 ${PW} ${PH}" role="img" aria-la
     return box + txt + arrow;
   }).join("");
 
-// One teaser card per article.
+// Each card carries one small visual, in the same language: mono chips.
+const chip = (t, cls = "") => `<span class="chip${cls ? " " + cls : ""}">${t}</span>`;
+const chain = (parts) => parts.map((p, i) =>
+  (i ? '<span class="chip-sep">\u2192</span>' : "") + p).join("");
+
+const pipeChips = chain([
+  chip("push"), chip("test"), chip("preview"), chip("accept"), chip("live", "chip-live"),
+]);
+
+const acctChips = chain([chip("GitHub"), chip("Cloudflare"), chip("Claude")]);
+
 const panel = `  <div class="cards">
     <aside class="ship ship-build" aria-labelledby="card-1">
       <p class="ship-kicker"><span class="st st-ok">SHIPPED</span></p>
       <p class="ship-claim" id="card-1">Empty folder to a public URL in under 25 minutes, for free.</p>
-      <svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg>
-      <p class="ship-stats"><span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
+      <p class="chips" role="img" aria-label="Pipeline: push, test, preview, accept, live.">${pipeChips}</p>
+      <p class="ship-stats"><svg class="spark" viewBox="0 0 ${SW} ${SH}" role="img" aria-label="Tokens generated per minute across the build.">${spark}</svg> <span class="nb">${SHIP_LABEL}</span> · ${total.turns} model turns · ${total.calls} tool calls · three bugs caught before it shipped</p>
       <p class="ship-stats"><a href="https://${REPO}">${REPO}</a> — every file, including the tests and the pipeline</p>
-      <p class="ship-more"><a href="#build">read the build log</a></p>
+      <p class="ship-more"><a href="#build">How this site was built</a></p>
     </aside>
 
     <aside class="ship ship-phone" aria-labelledby="card-2">
       <p class="ship-kicker"><span class="st st-alt">FROM A PHONE</span></p>
       <p class="ship-claim" id="card-2">The slowest part of changing this page is typing the sentence that describes the change.</p>
+      <p class="typedemo" aria-label="Example: at a prompt, the words 'make the summary shorter'."><span class="prompt">~ $</span> make the summary shorter<span class="cur" aria-hidden="true"></span></p>
       <p class="ship-stats">The repository, the tests, the preview and the deploy are all URLs. Describe a change on a train, look at the preview, accept it.</p>
-      <p class="ship-more"><a href="#onwards">read how</a></p>
+      <p class="ship-more"><a href="#onwards">Changing it from a phone</a></p>
     </aside>
 
     <aside class="ship ship-yours" aria-labelledby="card-3">
       <p class="ship-kicker"><span class="st st-plain">BUILD YOUR OWN</span></p>
       <p class="ship-claim" id="card-3">Create your own personalised CV site for free with this guide, and be up and running in under 30 minutes.</p>
+      <p class="chips" role="img" aria-label="What you need: GitHub, Cloudflare and Claude, all free.">${acctChips}<span class="chip-sep">·</span>${chip("all free", "chip-free")}</p>
       <p class="ship-stats">Point Claude Code at it from a phone or a laptop. It interviews you and reads your CV first, then designs for you — not a copy of this page.</p>
-      <p class="ship-more"><a href="#yours">read the guide</a></p>
+      <p class="ship-more"><a href="#yours">A guide for building your own</a></p>
     </aside>
   </div>`;
 

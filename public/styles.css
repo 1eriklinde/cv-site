@@ -280,8 +280,29 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .st-plain { background: var(--dim); color: var(--bg); }
 .ship-yours { border-left: 2px solid var(--dim); }
 .ship-claim { margin: 0 0 0.85rem; font-size: 14.5px; font-weight: 700; line-height: 1.5; }
-.spark { display: block; width: 118px; height: 20px; margin: 0 0 0.8rem; }
+.spark { display: inline-block; width: 96px; height: 17px; vertical-align: -3px; margin-right: 7px; }
 .spark rect { fill: var(--dim); opacity: 0.55; }
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; margin: 0 0 0.95rem; }
+.chip {
+  padding: 2px 5px; border: 1px solid var(--line); border-radius: 2px;
+  font-size: 10px; color: var(--dim); white-space: nowrap;
+}
+.chip-live { background: var(--ok); border-color: var(--ok); color: var(--ok-ink); font-weight: 700; }
+.chip-free { border-color: var(--ok); color: var(--ok); }
+.chip-sep { color: var(--dimmer); font-size: 9px; }
+
+.typedemo {
+  margin: 0 0 0.95rem; padding: 8px 10px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 2px;
+  font-size: 11.5px; color: var(--fg); white-space: nowrap; overflow: hidden;
+}
+.typedemo .prompt { color: var(--accent); margin-right: 5px; }
+.typedemo .cur {
+  display: inline-block; width: 0.55em; height: 1em; margin-left: 2px;
+  background: var(--accent); vertical-align: -0.15em;
+  animation: blink 1.1s steps(1) infinite;
+}
+
 .ship-stats { margin: 0 0 0.9rem; font-size: 12.5px; color: var(--dimmer); line-height: 1.7; }
 .ship-stats b { color: var(--fg); }
 .ship-more { margin: auto 0 0; padding-top: 0.3rem; font-size: 12.5px; }
