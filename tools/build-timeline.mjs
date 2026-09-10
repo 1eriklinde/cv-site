@@ -21,6 +21,10 @@ const TZ_OFFSET_H = 2; // transcript timestamps are UTC; the build happened in C
 const T0 = "23:07";           // first prompt, 21:07:54Z
 const SHIP = "23:31";         // first deploy live, 21:31:49Z
 const SHIP_LABEL = "23 min 55 s";
+// Absolute cutoff. Comparing "HH:MM" strings breaks the moment the session
+// runs past midnight ("00:07" sorts before "23:31"), which silently pulled
+// later work into the to-first-ship totals.
+const SHIP_TS = Date.parse("2026-09-10T21:32:00Z");
 
 // Opus 5 list rates, $/million tokens. Cache reads bill at ~0.1x input,
 // cache writes at ~1.25x input.
@@ -29,7 +33,7 @@ const RATE = { input: 5, output: 25, cacheRead: 0.5, cacheWrite: 6.25 };
 // The story. Times are real; the prose is editorial.
 const STORY = [
   ["23:07", "An empty directory.", "No repo, no wrangler installed, no Cloudflare account set up. A CV in a PDF in the Downloads folder."],
-  ["23:08", "Agreed what to build.", "Terminal aesthetic, IT-operations framing rather than the display-hardware one the PDF led with. The PDF itself had to be parsed the hard way — no poppler on this machine, so pdf.js in a scratch directory."],
+  ["23:08", "Agreed what to build.", "Terminal aesthetic, and a round of CV adjustments. The PDF itself had to be parsed the hard way — no poppler on this machine, so pdf.js in a scratch directory."],
   ["23:10", "Checked the current docs.", "Cloudflare moved static hosting to Workers static assets. Worth two minutes to confirm rather than deploy to Pages out of habit."],
   ["23:13", "Self-hosted the typeface.", "Two woff2 files, 43 KB. No Google Fonts request, so nothing a visitor does here is visible to anyone else."],
   ["23:17", "Wrote the page.", "One HTML file, one stylesheet, the command line, the deploy config. No framework, so there was nothing to scaffold and nothing to wait for."],
@@ -66,9 +70,9 @@ for (const line of fs.readFileSync(log, "utf8").split("\n")) {
   try { d = JSON.parse(line); } catch { continue; }
   if (d.type !== "assistant" || !d.timestamp) continue;
   const u = d.message?.usage ?? {};
+  if (Date.parse(d.timestamp) >= SHIP_TS) continue; // the story ends at the first live deploy
   const t = new Date(Date.parse(d.timestamp) + TZ_OFFSET_H * 3600e3);
   const key = t.toISOString().slice(11, 16);
-  if (key > SHIP) continue; // the story ends at the first live deploy
   const b = perMin.get(key) ?? { out: 0, think: 0 };
   const out = u.output_tokens ?? 0;
   const think = u.output_tokens_details?.thinking_tokens ?? 0;
@@ -176,7 +180,7 @@ ${storyRows}
       <dt>caught before shipping</dt>
       <dd>A flexbox rule orphaning the status dot, unescaped input reaching <code>innerHTML</code>, and a Content-Security-Policy that silently disabled part of the layout. Two of the three were only visible in a screenshot.</dd>
       <dt>what a person did</dt>
-      <dd>Chose the direction, answered ${tools.get("AskUserQuestion") ?? 0} decisions, and rejected the first framing of the CV — the reason this page leads with 6,000 Ubuntu hosts instead of digital signage. The typing was automated. The judgement was not.</dd>
+      <dd>Chose the direction, answered ${tools.get("AskUserQuestion") ?? 0} decisions, and drove the CV adjustments that shaped what this page says. The typing was automated. The judgement was not.</dd>
     </dl>
   </section>`;
 
@@ -187,7 +191,7 @@ const block = `${S}\n${section}\n${E}`;
 if (html.includes(S)) {
   html = html.replace(new RegExp(`${S}[\\s\\S]*?${E}`), block);
 } else {
-  html = html.replace("  <footer class=\"foot\">", `${block}\n\n  <footer class="foot">`);
+  html = html.replace('<main id="doc">\n', `<main id="doc">\n\n${block}\n`);
 }
 fs.writeFileSync(idx, html);
 console.log(`timeline: ${mins[0]}–${mins[mins.length - 1]}, ${total.turns} turns, ${total.calls} tool calls, ${(total.out/1000).toFixed(0)}k out, $${cost.toFixed(2)} at list rates`);
