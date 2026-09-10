@@ -1,0 +1,16 @@
+{
+  "name": "erik-linde-cv",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CV site for Erik Linde \u2014 static, deployed to Cloudflare Workers static assets",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "test": "node test/shell.test.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4",
+    "jsdom": "^25"
+  }
+}
