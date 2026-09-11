@@ -1,6 +1,8 @@
 import { JSDOM } from "jsdom";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
+import { cvPrintText, pdfPageCount, PRINT_HIDDEN } from "../tools/cv-text.mjs";
 import { fileURLToPath } from "url";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public") + path.sep;
@@ -199,6 +201,29 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   const mapped = [...js.matchAll(/"#([a-z0-9-]+)"/g)].map((m) => m[1]);
   const missing = ids.filter((id) => !mapped.includes(id));
   check("every project is registered in terminal.js", missing.length === 0, "unregistered: " + missing.join(", "));
+}
+
+// the served PDF must still be the one this CV printed
+{
+  const repo = path.join(root, "..");
+  const sha = (b) => crypto.createHash("sha256").update(b).digest("hex").slice(0, 16);
+  const manifest = JSON.parse(fs.readFileSync(path.join(repo, "pdf-manifest.json"), "utf8"));
+  const pdf = fs.readFileSync(root + "erik-linde-cv.pdf");
+
+  check("the CV has not changed since the PDF was printed",
+    sha(cvPrintText(html)) === manifest.cvText,
+    "index.html changed — reprint the PDF and run `npm run pdf:stamp`");
+  check("the PDF has not changed since it was stamped",
+    sha(pdf) === manifest.pdfBytes,
+    "erik-linde-cv.pdf changed — run `npm run pdf:stamp`");
+  check("the PDF is still four pages", pdfPageCount(pdf) === manifest.pages, String(pdfPageCount(pdf)));
+
+  // the fingerprint only means anything if it ignores exactly what print hides
+  const css = fs.readFileSync(root + "styles.css", "utf8");
+  const rule = (css.match(/@media print[\s\S]*?display: none !important/) || [""])[0];
+  const missing = PRINT_HIDDEN.filter((sel) => !rule.includes(sel));
+  check("the hidden-selector list matches the print stylesheet", missing.length === 0,
+    "not in the print rule: " + missing.join(", "));
 }
 
 // every page carries the same nav, marking exactly one entry as the current page
