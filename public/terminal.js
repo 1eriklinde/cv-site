@@ -83,6 +83,7 @@
     icinga:    "#icinga-monolith",
     secrets:   "#secrets",
     dexcom:    "#dexcom",
+    cloud:     "#cloud-resume",
     insider:   "#insider"
   };
 
