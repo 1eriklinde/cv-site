@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changing this site from a phone — Erik Linde</title>
+<meta name="description" content="The repository, the tests, the preview and the deploy are all URLs. A change described on a train goes live when you accept it.">
+<meta name="author" content="Erik Linde">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Changing this site from a phone — Erik Linde">
+<meta property="og:description" content="The repository, the tests, the preview and the deploy are all URLs. A change described on a train goes live when you accept it.">
+<meta name="twitter:card" content="summary">
+<link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="statusline">
+  <span class="sl-host">erik@stockholm</span>
+  <span class="sl-state"><span class="dot ok" aria-hidden="true"></span>OK</span>
+  <span class="sl-meta">IT operations &amp; monitoring</span>
+  <span class="sl-right"><span class="sl-meta">Stockholm</span> <span id="clock" class="sl-clock">--:--</span></span>
+</div>
+
+<main id="doc">
+  <p class="backlink"><a href="/">&larr; Erik Linde — IT operations &amp; monitoring engineer</a></p>
+
+  <article id="onwards" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cat build/onwards.md</span></p>
+      <h2 class="story-title">The slowest part of changing this page from a phone is typing the sentence that describes the change.</h2>
+      <p class="story-standfirst">The laptop is optional now: the repository, the tests, the preview and the deploy are all URLs. A change described on a train is staged at its own address within a minute, and goes live everywhere the moment you look at it and accept it. No terminal, no laptop, and nothing in the chain that a phone is bad at.</p>
+    </header>
+
+  <section id="phone" aria-labelledby="h-phone">
+    <h3 id="h-phone" class="cmd"><span class="prompt">$</span> <span class="c">cat from-a-phone.md</span></h3>
+    <!-- pipeline:start -->
+    <svg class="pipe" viewBox="0 0 620 34" role="img" aria-label="Pipeline: a push runs the tests, a passing run publishes a preview URL, and production updates only once a person accepts it."><rect class="pipe-box" x="0.0" y="4" width="104" height="26" rx="2"/><text class="pipe-t" x="52.0" y="21" text-anchor="middle">git push</text><g class="pipe-line"><path d="M108.0 17 H122.0"/><path d="M117.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="129.0" y="4" width="104" height="26" rx="2"/><text class="pipe-t" x="181.0" y="21" text-anchor="middle">npm test</text><g class="pipe-line"><path d="M237.0 17 H251.0"/><path d="M246.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="258.0" y="4" width="104" height="26" rx="2"/><text class="pipe-t" x="310.0" y="21" text-anchor="middle">preview URL</text><g class="pipe-line"><path d="M366.0 17 H380.0"/><path d="M375.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box" x="387.0" y="4" width="104" height="26" rx="2"/><text class="pipe-t" x="439.0" y="21" text-anchor="middle">you accept</text><g class="pipe-line"><path d="M495.0 17 H509.0"/><path d="M504.0 12.5 l5 4.5 -5 4.5"/></g><rect class="pipe-box pipe-box-live" x="516.0" y="4" width="104" height="26" rx="2"/><text class="pipe-t pipe-t-live" x="568.0" y="21" text-anchor="middle">live</text>
+  <!-- pipeline:end -->
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>Say what to change.</b> Open Claude Code in the browser on the phone, point it at this repository, and describe the edit in a sentence — shorten the summary, add a role, fix a date, change the accent colour.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It edits and pushes.</b> The change lands in <code>index.html</code> and goes to <code>main</code> as an ordinary commit. Nothing about the repository is phone-specific; it is the same push I would make from a keyboard.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>The tests run.</b> GitHub Actions runs the same test suite on a free runner. A failure stops there and nothing reaches the site — which matters more, not less, when the person pushing is on a train and cannot see the page.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>A preview appears.</b> A passing run uploads the build as a new version with its own URL. Production carries on serving the old page — nothing anyone else can see has changed. Open the preview on the phone and look at what you actually made.</td></tr>
+        <tr><td class="tl-when">5</td><td class="tl-what"><b>You accept it.</b> Approving the deployment promotes that exact version to the edge, and about fifteen seconds later it is live in every region. Nothing reaches the public page without someone looking at it first — which is the part that makes doing this from a train reasonable rather than reckless.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>from nothing</dt>
+      <dd>Someone starting with only a phone needs three free accounts — GitHub, Cloudflare, Claude — and a browser. No terminal, no laptop, no card. Cloudflare's CLI login even has a device flow that hands you a short code to type into the dashboard, which is exactly the shape of thing a phone handles well.</dd>
+      <dt>the one catch</dt>
+      <dd>The deploy key has to be minted in a browser, once: wrangler's OAuth scopes cannot create API tokens, so that single step is a visit to the Cloudflare dashboard. Until it exists the pipeline still runs the tests and simply skips the deploy. After it exists, the loop is closed.</dd>
+      <dt>why it holds up</dt>
+      <dd>Because this is plain files with no build step: nothing to compile, no toolchain to install, no lockfile to reconcile. The tests finish in about a second and the upload takes fifteen. There is no step in the middle for a phone to be bad at.</dd>
+    </dl>
+  </section>
+
+  </article>
+
+  <p class="backlink backlink-end"><a href="/">&larr; Back to the CV</a></p>
+
+  <footer class="foot">
+    <p>Built as a static page and served from Cloudflare's edge. No trackers, no analytics, no cookies.</p>
+  </footer>
+</main>
+
+<script src="/chrome.js" defer></script>
+</body>
+</html>

@@ -4,16 +4,6 @@
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (s) => document.querySelector(s);
 
-  /* ---------- status line clock (Stockholm) ---------- */
-  const clock = $("#clock");
-  const tick = () => {
-    clock.textContent = new Intl.DateTimeFormat("sv-SE", {
-      hour: "2-digit", minute: "2-digit", timeZone: "Europe/Stockholm"
-    }).format(new Date());
-  };
-  tick();
-  setInterval(tick, 10000);
-
   /* ---------- email: assembled client-side, never in the markup ---------- */
   const mails = document.querySelectorAll(".mail");
   const address = mails[0].dataset.u + "@" + mails[0].dataset.d;
@@ -199,27 +189,6 @@
       commands.exit();
     }
   });
-
-  /* ---------- copy buttons ---------- */
-  for (const btn of document.querySelectorAll(".copy")) {
-    btn.addEventListener("click", async () => {
-      const src = document.getElementById(btn.dataset.copy);
-      if (!src) return;
-      const text = src.textContent;
-      let ok = true;
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch (e) {
-        ok = false; // insecure context, denied permission, or no clipboard API
-      }
-      btn.textContent = ok ? "copied" : "select and copy";
-      btn.classList.toggle("copy-done", ok);
-      setTimeout(() => {
-        btn.textContent = "copy";
-        btn.classList.remove("copy-done");
-      }, 2000);
-    });
-  }
 
   /* "/" from anywhere focuses the prompt, like a real console */
   document.addEventListener("keydown", (e) => {

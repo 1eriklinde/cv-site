@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A guide for building your own — Erik Linde</title>
+<meta name="description" content="The recipe is published as a file an agent can read. Point Claude Code at it and it designs a site for you, not a copy of this one.">
+<meta name="author" content="Erik Linde">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A guide for building your own — Erik Linde">
+<meta property="og:description" content="The recipe is published as a file an agent can read. Point Claude Code at it and it designs a site for you, not a copy of this one.">
+<meta name="twitter:card" content="summary">
+<link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="statusline">
+  <span class="sl-host">erik@stockholm</span>
+  <span class="sl-state"><span class="dot ok" aria-hidden="true"></span>OK</span>
+  <span class="sl-meta">IT operations &amp; monitoring</span>
+  <span class="sl-right"><span class="sl-meta">Stockholm</span> <span id="clock" class="sl-clock">--:--</span></span>
+</div>
+
+<main id="doc">
+  <p class="backlink"><a href="/">&larr; Erik Linde — IT operations &amp; monitoring engineer</a></p>
+
+  <article id="yours" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">cat build/build-your-own.md</span></p>
+      <h2 class="story-title">A guide for building your own, free, from anywhere</h2>
+      <p class="story-standfirst">The whole recipe is published as a file an agent can read. Point Claude Code at it — from an iPhone, a laptop, a browser tab on someone else's machine — and it will interview you, read your CV, and design a site for the person it describes. It is a recipe, not a template: a copy of this page would be worth less to you than the twenty minutes it saved.</p>
+    </header>
+
+  <section id="recipe" aria-labelledby="h-yours">
+    <h3 id="h-yours" class="cmd"><span class="prompt">$</span> <span class="c">cat build-your-own.md</span></h3>
+    <p class="colo-lede">The recipe is published, and it is a recipe rather than a template. Pointed at it, Claude Code will interview you about your work, read your CV, and design something for that — a different look, your framing, your Cloudflare account. A copy of this page would be worth less than the twenty minutes it saved you.</p>
+
+    <figure class="example">
+      <a href="https://tovah-cv.1eriklinde.workers.dev/">
+        <img src="/example-tovah.webp" width="1400" height="1000" loading="lazy" decoding="async"
+             alt="A CV site for a Foley artist: warm grey page, large serif headline reading &quot;The dragon wing in Ember Crown is two umbrellas and a wet leather jacket&quot;, and a filterable table of screen credits.">
+      </a>
+      <figcaption>Same guide, same twenty minutes, a different person entirely — a demo build for an invented brief, a Foley artist in Göteborg. Nothing of this page survived into it except the deployment. <a href="https://tovah-cv.1eriklinde.workers.dev/">tovah-cv.1eriklinde.workers.dev</a></figcaption>
+    </figure>
+
+    <div class="paste">
+      <p class="paste-label">Open Claude Code — terminal, browser, or the app on your phone — and paste this:</p>
+      <pre class="paste-box"><code id="own-prompt">Read https://cv.1eriklinde.workers.dev/guide.md and follow it to
+build and deploy my CV site. Interview me first and read my CV,
+then design something that fits me — not a copy of that site.
+My CV is attached.</code></pre>
+      <button type="button" class="copy" data-copy="own-prompt">copy</button>
+    </div>
+
+    <table class="tl-table">
+      <tbody>
+        <tr><td class="tl-when">1</td><td class="tl-what"><b>It reads the guide.</b> <a href="/guide.md">guide.md</a> is plain markdown at a stable URL, written for an agent rather than a human: the file layout, the Wrangler config, the workflow, and the five gotchas that cost this build real time.</td></tr>
+        <tr><td class="tl-when">2</td><td class="tl-what"><b>It interviews you.</b> Whose CV, aimed at what kind of role, which contact details should be public, and what the thing should look like. The guide puts this before any code on purpose: framing changed this page more than any technical decision did, and the answers are different for everybody.</td></tr>
+        <tr><td class="tl-when">3</td><td class="tl-what"><b>It designs, builds, looks and tests.</b> A visual direction chosen for you rather than borrowed from here, then plain files, a screenshot to catch what markup checks cannot see, and a test suite for anything with behaviour.</td></tr>
+        <tr><td class="tl-when">4</td><td class="tl-what"><b>It ships.</b> <code>wrangler login --device</code> prints a code you type into the dashboard — no localhost callback, which is exactly why this works from a phone — then deploys, creates the repository, and wires the pipeline.</td></tr>
+      </tbody>
+    </table>
+
+    <dl class="skills">
+      <dt>what you need</dt>
+      <dd>A GitHub account, a Cloudflare account and Claude. All three have free tiers that cover this entirely: no card, no domain, no server. Where a service offers <i>continue with Google</i>, take it and skip the form — GitHub is the one that does not, so budget a minute there for an email address and a password, or a passkey, which is quicker.</dd>
+      <dt>why it works on a phone</dt>
+      <dd>Nothing in the recipe needs a local machine. The only browser step is minting the deploy token, and a phone browser does that as well as any other. The guide deliberately avoids the login flow that expects a callback on localhost, because a phone cannot receive one.</dd>
+    </dl>
+  </section>
+  </article>
+
+  <p class="backlink backlink-end"><a href="/">&larr; Back to the CV</a></p>
+
+  <footer class="foot">
+    <p>Built as a static page and served from Cloudflare's edge. No trackers, no analytics, no cookies.</p>
+  </footer>
+</main>
+
+<script src="/chrome.js" defer></script>
+</body>
+</html>

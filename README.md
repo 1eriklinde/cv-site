@@ -1,15 +1,20 @@
 # erik-linde-cv
 
-Single-page CV site. Static HTML/CSS/JS, no build step, deployed to Cloudflare
-Workers static assets (free tier, unmetered asset requests).
+CV site: the CV itself on `/`, plus three long-form articles on their own
+URLs. Static HTML/CSS/JS, no build step, deployed to Cloudflare Workers static
+assets (free tier, unmetered asset requests).
 
 ## Layout
 
 ```
 public/            everything that ships
   index.html       the CV — content lives here, not in JS
+  build.html       how this site was built            -> /build
+  onwards.html     changing it from a phone           -> /onwards
+  yours.html       the guide to building your own     -> /yours
   styles.css       all styling, incl. light theme + print
-  terminal.js      the command line (progressive enhancement)
+  terminal.js      the command line (CV page only, progressive enhancement)
+  chrome.js        clock, copy buttons, old-anchor redirects (every page)
   theme.js         applies a saved theme before paint (no flash)
   404.html         terminal-styled not-found page
   _headers         CSP + security headers, Cloudflare syntax
@@ -21,6 +26,12 @@ wrangler.jsonc     deploy config
 ```
 
 ## Editing the CV
+
+The CV is `public/index.html`; the three long-form articles are their own
+pages (`build.html`, `onwards.html`, `yours.html`), served without the `.html`
+by `html_handling: auto-trailing-slash`. They were `#anchors` on the CV until
+they got their own URLs; `chrome.js` redirects the old fragments, since the
+server never sees them.
 
 Edit `public/index.html` directly. The content is semantic HTML, so the page is
 fully readable with JavaScript disabled; `terminal.js` reads the DOM rather than
@@ -55,7 +66,7 @@ real config, not a local approximation.
 
 `npm run timeline` reads the Claude Code session transcript under
 `~/.claude/projects/-home-erikl-cv-site/` and rewrites the `#timeline` section
-between the `<!-- timeline:start -->` markers in `index.html`. Every figure on
+between the `<!-- timeline:start -->` markers in `build.html`. Every figure on
 that section — minutes, turns, tool calls, tokens, cost — is measured from the
 log rather than typed by hand, so it stays honest if regenerated.
 

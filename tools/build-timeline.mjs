@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Regenerates the "how this was built" timeline in public/index.html from the
+// Regenerates the "how this was built" timeline in public/build.html from the
 // Claude Code session transcript. The numbers on the page are measured, not typed.
 //
 //   node tools/build-timeline.mjs [path-to-session.jsonl]
@@ -248,7 +248,7 @@ ${storyRows}
     </dl>
   </section>`;
 
-const idx = path.join(ROOT, "public/index.html");
+const idx = path.join(ROOT, "public/build.html");
 let html = fs.readFileSync(idx, "utf8");
 
 const write = (name, body, fallback) => {

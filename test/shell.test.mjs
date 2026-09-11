@@ -90,17 +90,37 @@ check("exit closes pane", !out.classList.contains("open") && out.textContent ===
 o = run("<script>alert(1)</script>");
 check("echo escapes html", !out.querySelector("script") && out.textContent.includes("<script>"));
 
-// copy button
+// copy button — lives on /yours, driven by chrome.js
 {
+  const yoursHtml = fs.readFileSync(root + "yours.html", "utf8");
+  const chromeJs = fs.readFileSync(root + "chrome.js", "utf8");
+  const d2 = new JSDOM(yoursHtml, { runScripts: "outside-only", url: "http://localhost/yours" });
   let copied = null;
-  window.navigator.clipboard = { writeText: async (t) => { copied = t; } };
-  const btn = doc.querySelector(".copy");
+  d2.window.navigator.clipboard = { writeText: async (t) => { copied = t; } };
+  d2.window.eval(chromeJs);
+  const ydoc = d2.window.document;
+  const btn = ydoc.querySelector(".copy");
   check("copy button exists", !!btn);
-  check("copy button targets a real element", !!doc.getElementById(btn.dataset.copy));
-  btn.dispatchEvent(new window.Event("click", { bubbles: true }));
+  check("copy button targets a real element", !!btn && !!ydoc.getElementById(btn.dataset.copy));
+  btn.dispatchEvent(new d2.window.Event("click", { bubbles: true }));
   await new Promise((r) => setTimeout(r, 10));
   check("copy writes the prompt to the clipboard", (copied || "").includes("guide.md"), String(copied).slice(0, 40));
   check("copy button confirms", btn.textContent === "copied", btn.textContent);
+}
+
+// the article pages exist, carry their article, and link back to the CV
+for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], ["yours.html", "yours"]]) {
+  const html = fs.readFileSync(root + page, "utf8");
+  const pd = new JSDOM(html).window.document;
+  check(page + " carries its article", !!pd.querySelector('article#' + id + '.story'));
+  check(page + " links back to the CV", !!pd.querySelector('.backlink a[href="/"]'));
+  check(page + " has its own title", (pd.title || "").length > 10 && pd.title !== "Erik Linde — IT operations & monitoring engineer", pd.title);
+}
+
+// the CV no longer carries the articles, and its cards point at the new URLs
+check("CV has no story articles", !doc.querySelector(".story"));
+for (const href of ["/build", "/onwards", "/yours"]) {
+  check("CV links to " + href, !!doc.querySelector('a[href="' + href + '"]'));
 }
 
 // history + tab completion
