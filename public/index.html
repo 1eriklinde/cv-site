@@ -102,7 +102,7 @@
       <ul>
         <li><b>Observability platform.</b> Run the Icinga2 estate — master, satellite and agent topology, managed through Icinga Director — and the pipeline around it: Prometheus for metrics, Vector.dev log shipping into QuestDB time-series storage, both surfaced through Grafana. SQL-backed dashboards for trend and root-cause analysis, plus automated availability reporting for stakeholders.</li>
         <li><b>Automation and ITSM integration.</b> Automated host registration in Icinga2 against the asset management API, removing manual onboarding entirely. Integrated Icinga2 with HaloITSM so alerts open tickets bound to the correct asset, and synced downtime between monitoring and ticketing over Python and JSON APIs.</li>
-        <li><b>Linux fleet operations.</b> SSH at fleet scale, systemd and kernel boot configuration, Ansible for provisioning and estate-wide configuration changes, and a documented map of which failure modes recover remotely and which need out-of-band intervention — AMT, rtcwake, or a switched PDU.</li>
+        <li><b>Linux fleet operations.</b> SSH at fleet scale, with TeamViewer for the faults that need a desktop rather than a shell, systemd and kernel boot configuration, Ansible for provisioning and estate-wide configuration changes, and a documented map of which failure modes recover remotely and which need out-of-band intervention — AMT, rtcwake, or a switched PDU.</li>
         <li><b>Check plugin development.</b> Icinga2 plugins in Python, Bash and PowerShell against SNMP, JSON APIs and SQL, including hardware-level health checks (DDC/CI via ddcutil, sysfs EDID validation, screenshot pixel-hash deltas) that catch failures xrandr and VNC report as healthy.</li>
         <li><b>Problem management.</b> Traced recurring fleet-wide failures on Intel Gen 9/9.5 hardware to i915 panel self-refresh and rolled the kernel-parameter fix out estate-wide. Separately, traced playback failures to a <code>JSON.parse('')</code> crash triggered by empty backend responses — a server-side degradation assumed for months to be a client fault — and shipped a check to detect the pattern proactively. Also traced a recurring fault in our own domain to DNS caching — stale answers kept being served after records changed, so the symptom returned on a TTL cycle rather than staying fixed — and corrected the TTLs so changes take effect when they are made.</li>
         <li><b>Infrastructure remediation.</b> Led an Icinga2 PKI remediation across masters and satellites: CA distribution, <code>ticket_salt</code> configuration, and zone and dependency type mismatches that were causing silent check failures. Restored monitoring coverage on every affected host.</li>
@@ -110,7 +110,7 @@
         <li><b>Self-healing design.</b> A SQLite-backed remediation state machine enforcing one action per incident, with check and retry intervals tuned to damp alert flapping.</li>
         <li><b>Fault visualisation.</b> Integrated a camera API into an internal operations site, turning per-host checks into a visual overview of estate condition — faults and screen brightness reviewable from one page instead of host by host. Delivered through the team's GitOps pipeline, GitHub to Argo CD, landing on the test cluster to verify before the same change was promoted to production.</li>
       </ul>
-      <p class="tags">Icinga2 · Icinga Director · Prometheus · Grafana · Vector.dev · QuestDB · Ansible · Kubernetes · Argo CD · Consul · WireGuard · HaloITSM · Zendesk · PDQ Deploy</p>
+      <p class="tags">Icinga2 · Icinga Director · Prometheus · Grafana · Vector.dev · QuestDB · Ansible · Kubernetes · Argo CD · Consul · WireGuard · TeamViewer · HaloITSM · Zendesk · PDQ Deploy</p>
     </article>
 
     <article class="role">
@@ -120,9 +120,9 @@
       <ul>
         <li><b>Automate (RMM).</b> Monitored Windows Server and endpoint estates across MSP customers, applied patching, deployed applications with PowerShell scripting, and built SQL-based alarms and reporting on database changes.</li>
         <li><b>Manage (PSA).</b> Ran ticketing under ITIL processes, invoicing and sales flows. Built and analysed the SQL reports MSPs used to demonstrate value to their own clients, and resolved system issues and API integrations.</li>
-        <li><b>Control.</b> Built remote support portals and troubleshot remote session and tooling issues.</li>
+        <li><b>Control.</b> Built remote support portals and troubleshot remote session and tooling issues, in Control and TeamViewer.</li>
       </ul>
-      <p class="tags">ConnectWise Automate · Manage · Control · Windows Server · SQL · ITIL</p>
+      <p class="tags">ConnectWise Automate · Manage · Control · TeamViewer · Windows Server · SQL · ITIL</p>
     </article>
 
     <article class="role">
