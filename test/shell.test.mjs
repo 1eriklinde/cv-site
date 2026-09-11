@@ -34,6 +34,8 @@ const check = (name, cond, detail) => {
 console.log("terminal.js behaviour");
 check("email assembled client-side", doc.querySelector("#mail").href === "mailto:1eriklinde@gmail.com", doc.querySelector("#mail").href);
 check("email not in raw markup", !html.includes("1eriklinde@gmail.com"));
+const mails = [...doc.querySelectorAll(".mail")];
+check("every email link assembled", mails.length >= 2 && mails.every((a) => a.href === "mailto:1eriklinde@gmail.com"), mails.length + " links");
 
 let o = run("help");
 check("help lists commands", o.includes("ls") && o.includes("theme") && o.includes("open <project>"), o.slice(0, 60));

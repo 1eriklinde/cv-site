@@ -15,10 +15,12 @@
   setInterval(tick, 10000);
 
   /* ---------- email: assembled client-side, never in the markup ---------- */
-  const mail = $("#mail");
-  const address = mail.dataset.u + "@" + mail.dataset.d;
-  mail.href = "mailto:" + address;
-  mail.textContent = address;
+  const mails = document.querySelectorAll(".mail");
+  const address = mails[0].dataset.u + "@" + mails[0].dataset.d;
+  mails.forEach((m) => {
+    m.href = "mailto:" + address;
+    m.textContent = address;
+  });
 
   /* ---------- hero: one orchestrated moment ---------- */
   const hero = document.querySelector(".hero");
