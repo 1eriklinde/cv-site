@@ -131,6 +131,7 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   d3.window.eval(chromeJs);
   await new Promise((r) => setTimeout(r, 20));
   check("view counter posts to /api/hits", sent && sent.url === "/api/hits" && sent.method === "POST", JSON.stringify(sent));
+  check("view counter shows in the status line", d3.window.document.querySelector("#hits-count").textContent === "1,234 views", d3.window.document.querySelector("#hits-count").textContent);
   check("view counter renders the sentence", d3.window.document.querySelector("#hits-line").textContent === "1,234 page views from 7 countries", d3.window.document.querySelector("#hits-line").textContent);
   check("view counter names countries, not codes", /Sweden 9/.test(d3.window.document.querySelector("#hits-top").textContent), d3.window.document.querySelector("#hits-top").textContent);
 

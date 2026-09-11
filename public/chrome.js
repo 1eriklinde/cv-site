@@ -40,6 +40,7 @@
      The endpoint keeps running totals per country; nothing about a visit is
      stored, and the browser sends nothing it would not send anyway. */
   const lineEl = document.querySelector("#hits-line");
+  const countEl = document.querySelector("#hits-count");
   const topEl = document.querySelector("#hits-top");
   const plural = (n, one, many) => n.toLocaleString("en-GB") + " " + (n === 1 ? one : many);
 
@@ -55,6 +56,7 @@
     .then((r) => (r.ok ? r.json() : null))
     .then((d) => {
       if (!d || typeof d.total !== "number") return;
+      if (countEl) countEl.textContent = plural(d.total, "view", "views");
       if (lineEl) {
         lineEl.textContent = plural(d.total, "page view", "page views") +
           " from " + plural(d.countries, "country", "countries");

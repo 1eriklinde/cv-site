@@ -73,6 +73,9 @@ b { font-weight: 700; color: var(--fg); }
 .sl-state { display: inline-flex; align-items: center; gap: 6px; color: var(--fg); }
 .sl-right { margin-left: auto; display: flex; gap: 12px; align-items: center; }
 .sl-clock { color: var(--fg); font-variant-numeric: tabular-nums; }
+/* empty until the count arrives; collapse it so there is no stray gap */
+#hits-count:empty { display: none; }
+#hits-count { font-variant-numeric: tabular-nums; }
 .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--dimmer); flex: none; }
 .dot.ok { background: var(--ok); }
 
