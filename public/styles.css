@@ -149,6 +149,12 @@ section:first-of-type h2.cmd { margin-top: 3.5rem; }
 .proj .sub::before { content: "· "; }
 .proj p { margin: 0; color: var(--dim); }
 
+/* ---------- example shot ---------- */
+.example { margin: 1.6rem 0 0; }
+.example > a { display: block; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; line-height: 0; }
+.example img { width: 100%; height: auto; display: block; }
+.example figcaption { margin: 0.7rem 0 0; font-size: 12.5px; color: var(--dimmer); line-height: 1.6; }
+
 /* ---------- contact ---------- */
 .contact { list-style: none; margin: 0; padding: 0; }
 .contact li { display: grid; grid-template-columns: 130px 1fr; gap: 20px; margin-bottom: 0.55rem; }
