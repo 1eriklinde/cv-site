@@ -25,7 +25,13 @@
 </div>
 
 <main id="doc">
-  <p class="backlink"><a href="/">&larr; Erik Linde — IT operations &amp; monitoring engineer</a></p>
+  <nav class="nav" aria-label="Pages">
+    <a href="/">the CV</a>
+    <span class="nav-here" aria-current="page">how it was built</span>
+    <a href="/onwards">from a phone</a>
+    <a href="/yours">build your own</a>
+    <a href="/stats">who reads this</a>
+  </nav>
 
   <article id="build" class="story">
     <header class="story-head">
@@ -111,7 +117,7 @@
 
       <text class="dg-s" x="67"  y="108" text-anchor="middle">edit index.html</text>
       <text class="dg-s" x="262" y="108" text-anchor="middle">npm test</text>
-      <text class="dg-s" x="262" y="122" text-anchor="middle">59 checks</text>
+      <text class="dg-s" x="262" y="122" text-anchor="middle">74 checks</text>
       <text class="dg-s" x="457" y="108" text-anchor="middle">no build step</text>
       <text class="dg-s" x="652" y="108" text-anchor="middle">~50 ms to first byte</text>
     </svg>
@@ -119,11 +125,11 @@
     <dl class="skills">
       <!-- stats:start -->
       <dt>first load</dt>
-      <dd>55.2 KB over the wire, compressed — 42.0 KB of that is the self-hosted typeface, so the document itself is about 13.2 KB. One HTML file, one stylesheet, three small scripts.</dd>
+      <dd>55.3 KB over the wire, compressed — 42.0 KB of that is the self-hosted typeface, so the document itself is about 13.3 KB. One HTML file, one stylesheet, three small scripts.</dd>
       <dt>deploy</dt>
       <dd>~14 seconds from <code>git push</code> to live: 21 assets uploaded, worker updated, edge triggers deployed.</dd>
       <dt>tests</dt>
-      <dd>59 jsdom checks on the command line below — completion, history, escaping, routing. The deploy does not run if they fail.</dd>
+      <dd>74 jsdom checks on the command line below — completion, history, escaping, routing. The deploy does not run if they fail.</dd>
       <!-- stats:end -->
       <dt>views</dt>
       <dd>Counted in a SQLite database at the edge — Cloudflare D1, one row per country and one for the total. Cloudflare resolves the country at the edge; no address, no user agent, no timestamp, no cookie, and no row for any individual visit, so the table cannot say that a particular request happened. Busiest so far: <span id="hits-top">&mdash;</span>. The page itself is still served as a static asset and never touches the Worker.</dd>

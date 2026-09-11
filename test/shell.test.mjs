@@ -193,6 +193,18 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   check("schema is one key and one number", /k TEXT PRIMARY KEY/.test(columns) && /n INTEGER/.test(columns) && !/\b(ip|addr|agent|time|date|ref)\w*/i.test(columns), columns.replace(/\s+/g, " ").trim());
 }
 
+// every page carries the same nav, marking exactly one entry as the current page
+for (const [page, here] of [["index.html", "/"], ["build.html", "/build"], ["onwards.html", "/onwards"],
+                            ["yours.html", "/yours"], ["stats.html", "/stats"]]) {
+  const pd = new JSDOM(fs.readFileSync(root + page, "utf8")).window.document;
+  const nav = pd.querySelector("nav.nav");
+  const links = [...(nav ? nav.querySelectorAll("a") : [])].map((a) => a.getAttribute("href"));
+  const current = nav ? nav.querySelectorAll('[aria-current="page"]') : [];
+  check(page + " has the nav", !!nav);
+  check(page + " nav links to the other four", links.length === 4 && !links.includes(here), String(links));
+  check(page + " nav marks itself current, unlinked", current.length === 1 && current[0].tagName === "SPAN");
+}
+
 // the CV no longer carries the articles, and its cards point at the new URLs
 check("CV has no story articles", !doc.querySelector(".story"));
 for (const href of ["/build", "/onwards", "/yours"]) {
