@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who reads this — Erik Linde</title>
+<meta name="description" content="Page views by country for this site, counted in a Cloudflare D1 database holding one running total per country and nothing about any visit.">
+<meta name="author" content="Erik Linde">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Who reads this — Erik Linde">
+<meta property="og:description" content="Page views by country, counted at the edge without storing anything about a visit.">
+<meta name="twitter:card" content="summary">
+<link rel="preload" href="/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div class="statusline">
+  <span class="sl-host">erik@stockholm</span>
+  <span class="sl-state"><span class="dot ok" aria-hidden="true"></span>OK</span>
+  <span class="sl-meta">IT operations &amp; monitoring</span>
+  <span class="sl-right"><a class="sl-meta sl-hits" id="hits-count" href="/stats"></a> <span class="sl-meta">Stockholm</span> <span id="clock" class="sl-clock">--:--</span></span>
+</div>
+
+<main id="doc">
+  <p class="backlink"><a href="/">&larr; Erik Linde — IT operations &amp; monitoring engineer</a></p>
+
+  <article id="stats" class="story">
+    <header class="story-head">
+      <p class="story-kicker"><span class="prompt">$</span> <span class="c">wrangler d1 execute cv-stats --command "SELECT k, n FROM hits ORDER BY n DESC"</span></p>
+      <h2 class="story-title">Who reads this</h2>
+      <p class="story-standfirst">Every page here is a static file, served from Cloudflare's edge without running any code. The one exception is a counter: each view adds one to a total and one to a tally for the country the edge resolved. That is the whole database — a key and a number, no row per visit, so it cannot say that any particular request happened.</p>
+    </header>
+
+    <section id="chart-section" aria-labelledby="h-chart">
+      <h3 id="h-chart" class="cmd"><span class="prompt">$</span> <span class="c">cat views-by-country.txt</span></h3>
+      <div id="chart" class="chart"><p class="chart-empty">Loading the count&hellip;</p></div>
+    </section>
+
+    <section id="how" aria-labelledby="h-how">
+      <h3 id="h-how" class="cmd"><span class="prompt">$</span> <span class="c">cat schema.sql</span></h3>
+      <pre class="paste-box"><code>CREATE TABLE IF NOT EXISTS hits (
+  k TEXT PRIMARY KEY,
+  n INTEGER NOT NULL DEFAULT 0
+);</code></pre>
+      <dl class="skills">
+        <dt>what is stored</dt>
+        <dd>One row called <code>total</code>, and one row per country — <code>cc:SE</code>, <code>cc:GB</code>. Nothing else. No address, no user agent, no timestamp, no cookie, and no row for an individual visit.</dd>
+        <dt>where the country comes from</dt>
+        <dd>Cloudflare resolves it at the edge and hands it to the Worker, so your browser sends nothing it would not have sent anyway. A tally of one from a rarely-seen country is the most this can ever reveal.</dd>
+        <dt>what it costs</dt>
+        <dd>Nothing. Static assets are free and unlimited on the Workers free plan, and pages here are static assets — the Worker runs only for the counter call, and the free plan covers 100,000 of those a day.</dd>
+        <dt>the code</dt>
+        <dd>Forty lines, in <a href="https://github.com/1eriklinde/cv-site/blob/main/src/index.js">src/index.js</a>, with tests that fail if it ever reads a request header or stores anything identifying. <a href="/build">How the site was built</a> has the rest.</dd>
+      </dl>
+    </section>
+  </article>
+
+  <p class="backlink backlink-end"><a href="/">&larr; Back to the CV</a></p>
+
+  <footer class="foot">
+    <p>Built as a static page and served from Cloudflare's edge. No trackers, no cookies, no third-party requests.</p>
+    <p><span id="hits-line">Page views are counted at the edge</span>. The counter keeps running totals and stores nothing about any visit.</p>
+  </footer>
+</main>
+
+<script src="/chrome.js" defer></script>
+<script src="/stats.js" defer></script>
+</body>
+</html>

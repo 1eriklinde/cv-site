@@ -12,9 +12,11 @@ public/            everything that ships
   build.html       how this site was built            -> /build
   onwards.html     changing it from a phone           -> /onwards
   yours.html       the guide to building your own     -> /yours
+  stats.html       page views by country              -> /stats
   styles.css       all styling, incl. light theme + print
   terminal.js      the command line (CV page only, progressive enhancement)
-  chrome.js        clock, copy buttons, old-anchor redirects (every page)
+  chrome.js        clock, copy buttons, view counter (every page)
+  stats.js         the views-by-country chart (hand-rolled SVG, /stats only)
   theme.js         applies a saved theme before paint (no flash)
   404.html         terminal-styled not-found page
   _headers         CSP + security headers, Cloudflare syntax
@@ -86,6 +88,13 @@ No address, no user agent, no timestamp, no cookie — which is what lets the
 footer still say nothing is stored about the visitor. Two tests enforce that:
 they fail if the Worker ever reads a request header or the schema grows an
 identifying column.
+
+`/stats` draws the per-country breakdown: one hue for every bar, because bar
+length already encodes the magnitude and a darker-where-bigger ramp would spend
+the only free channel restating it. One country renders as a stat tile rather
+than a one-bar chart, and a table always accompanies the chart. The SVG is built
+by hand in `stats.js` — no chart library, so no third-party request and nothing
+for the CSP to refuse.
 
 ```bash
 npx wrangler d1 execute cv-stats --file=schema.sql          # create the table

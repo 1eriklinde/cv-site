@@ -150,6 +150,37 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   check("view counter gets singulars right", d5.window.document.querySelector("#hits-line").textContent === "1 page view from 1 country", d5.window.document.querySelector("#hits-line").textContent);
 }
 
+// /stats renders the right thing for each shape of data
+{
+  const statsHtml = fs.readFileSync(root + "stats.html", "utf8");
+  const statsJs = fs.readFileSync(root + "stats.js", "utf8");
+
+  const render = async (payload) => {
+    const d = new JSDOM(statsHtml, { runScripts: "outside-only", url: "http://localhost/stats" });
+    d.window.fetch = () => Promise.resolve({ ok: true, json: async () => payload });
+    d.window.eval(statsJs);
+    await new Promise((r) => setTimeout(r, 20));
+    return d.window.document.querySelector("#chart");
+  };
+
+  const many = await render({ total: 900, countries: 3, all: [{ cc: "SE", n: 500 }, { cc: "GB", n: 300 }, { cc: "US", n: 100 }] });
+  check("stats draws a chart for several countries", !!many.querySelector("svg .bar"));
+  check("stats bars all share one colour class", [...many.querySelectorAll("path")].every((b) => b.getAttribute("class") === "bar"));
+  check("stats names countries rather than codes", /Sweden/.test(many.textContent), many.textContent.slice(0, 40));
+  check("stats ships a table alongside the chart", many.querySelectorAll(".stats-table tbody tr").length === 3);
+  check("stats labels every bar with its value", [...many.querySelectorAll(".bar-value")].length === 3);
+
+  // a single category is a number, not a one-bar bar chart
+  const one = await render({ total: 37, countries: 1, all: [{ cc: "SE", n: 37 }] });
+  check("stats shows a stat tile for one country", !one.querySelector("svg") && /37/.test(one.textContent) && /Sweden/.test(one.textContent), one.textContent);
+
+  const none = await render({ total: 0, countries: 0, all: [] });
+  check("stats says so when there is nothing yet", /No views recorded yet/.test(none.textContent), none.textContent);
+
+  const broken = await render(null);
+  check("stats survives a dead endpoint", /unavailable/.test(broken.textContent), broken.textContent);
+}
+
 // the counter must never be sent anything about the visitor
 {
   const worker = fs.readFileSync(path.join(root, "..", "src/index.js"), "utf8");
