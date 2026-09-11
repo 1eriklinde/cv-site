@@ -63,11 +63,11 @@
   const sections = {
     summary:    ["#doc",         "jumped to the top"],
     skills:     ["#skills",      "skills.txt"],
-    experience: ["#experience",  "uptime --history"],
+    experience: ["#experience",  "last -F erik"],
     projects:   ["#projects",    "~/projects"],
     certs:      ["#about",       "certs.txt"],
     languages:  ["#about",       "languages.txt"],
-    contact:    ["#contact",     "contact --list"]
+    contact:    ["#contact",     "cat contact.txt"]
   };
 
   const projects = {
