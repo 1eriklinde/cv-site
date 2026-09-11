@@ -193,6 +193,14 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   check("schema is one key and one number", /k TEXT PRIMARY KEY/.test(columns) && /n INTEGER/.test(columns) && !/\b(ip|addr|agent|time|date|ref)\w*/i.test(columns), columns.replace(/\s+/g, " ").trim());
 }
 
+// every project on the page must be reachable from the shell's hardcoded map
+{
+  const ids = [...doc.querySelectorAll("article.proj[id]")].map((a) => a.id);
+  const mapped = [...js.matchAll(/"#([a-z0-9-]+)"/g)].map((m) => m[1]);
+  const missing = ids.filter((id) => !mapped.includes(id));
+  check("every project is registered in terminal.js", missing.length === 0, "unregistered: " + missing.join(", "));
+}
+
 // every page carries the same nav, marking exactly one entry as the current page
 for (const [page, here] of [["index.html", "/"], ["build.html", "/build"], ["onwards.html", "/onwards"],
                             ["yours.html", "/yours"], ["stats.html", "/stats"]]) {

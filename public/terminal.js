@@ -73,6 +73,7 @@
   const projects = {
     bastion:   "#bastion",
     icinga:    "#icinga-monolith",
+    selfheal:  "#selfheal",
     secrets:   "#secrets",
     dexcom:    "#dexcom",
     cloud:     "#cloud-resume",
