@@ -109,13 +109,13 @@
     },
     whoami() {
       print("Erik Linde — IT operations &amp; monitoring engineer, Stockholm.");
-      print("Six years in IT ops. Currently observability for ~6,000 Ubuntu hosts");
+      print("Eight years in IT ops. Currently observability for ~6,000 Ubuntu hosts");
       print("across seven European markets. I build the tooling I need.");
     },
     uptime() {
-      const start = new Date("2016-01-01");
+      const start = new Date("2018-01-01"); // IT operations proper, from H&M
       const months = Math.floor((Date.now() - start) / 2629800000);
-      print("up " + Math.floor(months / 12) + "y " + (months % 12) + "m, 4 roles, 0 unplanned career outages");
+      print("up " + Math.floor(months / 12) + "y " + (months % 12) + "m, 3 roles, 0 unplanned career outages");
     },
     pdf() { print("fetching erik-linde-cv.pdf"); window.location.href = "/erik-linde-cv.pdf"; },
     github() { print("opening github.com/1eriklinde"); window.open("https://github.com/1eriklinde", "_blank", "noopener"); },
