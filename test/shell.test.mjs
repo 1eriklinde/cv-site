@@ -126,26 +126,37 @@ for (const [page, id] of [["build.html", "build"], ["onwards.html", "onwards"], 
   let sent = null;
   d3.window.fetch = (u, o) => {
     sent = { url: u, method: o && o.method };
-    return Promise.resolve({ ok: true, json: async () => ({ total: 1234 }) });
+    return Promise.resolve({ ok: true, json: async () => ({ total: 1234, countries: 7, top: [{ cc: "SE", n: 9 }] }) });
   };
   d3.window.eval(chromeJs);
   await new Promise((r) => setTimeout(r, 20));
   check("view counter posts to /api/hits", sent && sent.url === "/api/hits" && sent.method === "POST", JSON.stringify(sent));
-  check("view counter renders the number", d3.window.document.querySelector("#hits").textContent === "1,234", d3.window.document.querySelector("#hits").textContent);
+  check("view counter renders the sentence", d3.window.document.querySelector("#hits-line").textContent === "1,234 page views from 7 countries", d3.window.document.querySelector("#hits-line").textContent);
+  check("view counter names countries, not codes", /Sweden 9/.test(d3.window.document.querySelector("#hits-top").textContent), d3.window.document.querySelector("#hits-top").textContent);
 
   // the endpoint being down must not take the page with it
   const d4 = new JSDOM(buildHtml, { runScripts: "outside-only", url: "http://localhost/build" });
   d4.window.fetch = () => Promise.reject(new Error("offline"));
   let threw = false;
   try { d4.window.eval(chromeJs); await new Promise((r) => setTimeout(r, 20)); } catch (e) { threw = true; }
-  check("a dead counter does not break the page", !threw && d4.window.document.querySelector("#hits").textContent === "\u2014");
+  check("a dead counter does not break the page", !threw && /counted at the edge/.test(d4.window.document.querySelector("#hits-line").textContent));
+
+  // singulars, which the very first visitor would otherwise see as "1 page views"
+  const d5 = new JSDOM(buildHtml, { runScripts: "outside-only", url: "http://localhost/build" });
+  d5.window.fetch = () => Promise.resolve({ ok: true, json: async () => ({ total: 1, countries: 1, top: [{ cc: "SE", n: 1 }] }) });
+  d5.window.eval(chromeJs);
+  await new Promise((r) => setTimeout(r, 20));
+  check("view counter gets singulars right", d5.window.document.querySelector("#hits-line").textContent === "1 page view from 1 country", d5.window.document.querySelector("#hits-line").textContent);
 }
 
 // the counter must never be sent anything about the visitor
 {
   const worker = fs.readFileSync(path.join(root, "..", "src/index.js"), "utf8");
   const schema = fs.readFileSync(path.join(root, "..", "schema.sql"), "utf8");
-  check("worker stores no identifying fields", !/cf-connecting-ip|user-agent|referer|headers\.get/i.test(worker));
+  // the country is read from Cloudflare's edge; nothing else about the request is
+  check("worker reads no request headers", !/headers\.get|cf-connecting-ip|user-agent|referer/i.test(worker));
+  check("worker reads only the country off cf", (worker.match(/request\.cf\.\w+/g) || []).every((m) => m === "request.cf.country"), String(worker.match(/request\.cf\.\w+/g)));
+  check("worker writes no per-visit row", !/INSERT INTO (visits|log|events)/i.test(worker) && !/Date\.now|new Date/.test(worker));
   const columns = schema.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n");
   check("schema is one key and one number", /k TEXT PRIMARY KEY/.test(columns) && /n INTEGER/.test(columns) && !/\b(ip|addr|agent|time|date|ref)\w*/i.test(columns), columns.replace(/\s+/g, " ").trim());
 }

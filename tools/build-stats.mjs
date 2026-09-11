@@ -67,11 +67,15 @@ let out = src.replace(
 // the pipeline diagram carries the same two figures; they drifted last time
 const label = (cls, x, y, text) =>
   new RegExp(`(<text class="${cls}" x="${x}" y="${y}"[^>]*>)[^<]*(</text>)`);
-const before = out;
-out = out
-  .replace(label("dg-s", 555, 20), `$1${assets} files$2`)
-  .replace(label("dg-s", 262, 122), `$1${tests} checks$2`);
-if (out === before) throw new Error("diagram labels not found — has the SVG changed?");
+for (const [cls, x, y, text] of [["dg-s", 555, 20, `${assets} files`],
+                                 ["dg-s", 262, 122, `${tests} checks`]]) {
+  const re = label(cls, x, y);
+  // The label must exist; whether it needs changing is not the point. An
+  // earlier version threw when the numbers were already right, which is most
+  // runs.
+  if (!re.test(out)) throw new Error(`diagram label ${cls} @${x},${y} not found — has the SVG changed?`);
+  out = out.replace(re, `$1${text}$2`);
+}
 
 fs.writeFileSync(file, out);
 console.log(`stats: ${kb(total)} KB first load (${kb(docBytes)} KB document + ${kb(bytes.font)} KB fonts), ${tests} tests, ${assets} assets`);

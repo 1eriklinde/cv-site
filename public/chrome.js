@@ -36,14 +36,33 @@
   }
 
   /* ---------- page views ----------
-     Counts the view and, if this page displays the number, fills it in. The
-     endpoint stores one integer; nothing identifying anyone is sent or kept. */
-  const hitsEl = document.querySelector("#hits");
+     Counts the view and fills in whichever of the three spans this page shows.
+     The endpoint keeps running totals per country; nothing about a visit is
+     stored, and the browser sends nothing it would not send anyway. */
+  const lineEl = document.querySelector("#hits-line");
+  const topEl = document.querySelector("#hits-top");
+  const plural = (n, one, many) => n.toLocaleString("en-GB") + " " + (n === 1 ? one : many);
+
+  const country = (cc) => {
+    try {
+      return new Intl.DisplayNames(["en"], { type: "region" }).of(cc) || cc;
+    } catch (e) {
+      return cc; // unknown code, or a browser without DisplayNames
+    }
+  };
+
   if (typeof fetch === "function") fetch("/api/hits", { method: "POST" })
     .then((r) => (r.ok ? r.json() : null))
     .then((d) => {
-      if (hitsEl && d && typeof d.total === "number") {
-        hitsEl.textContent = d.total.toLocaleString("en-GB");
+      if (!d || typeof d.total !== "number") return;
+      if (lineEl) {
+        lineEl.textContent = plural(d.total, "page view", "page views") +
+          " from " + plural(d.countries, "country", "countries");
+      }
+      if (topEl && d.top && d.top.length) {
+        topEl.textContent = d.top
+          .map((c) => country(c.cc) + " " + c.n.toLocaleString("en-GB"))
+          .join(" · ");
       }
     })
     .catch(() => { /* a counter is not worth breaking a page over */ });

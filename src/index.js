@@ -17,23 +17,41 @@ const json = (body, status = 200) =>
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
   });
 
+const BUMP =
+  "INSERT INTO hits (k, n) VALUES (?, 1) ON CONFLICT(k) DO UPDATE SET n = n + 1";
+
 async function hits(request, env) {
   if (request.method !== "GET" && request.method !== "POST") {
     return json({ error: "method not allowed" }, 405);
   }
   try {
     if (request.method === "POST") {
-      // One statement: insert the counter or bump it, and hand back the new value.
-      const row = await env.DB.prepare(
-        "INSERT INTO hits (k, n) VALUES ('total', 1) " +
-        "ON CONFLICT(k) DO UPDATE SET n = n + 1 RETURNING n"
-      ).first();
-      return json({ total: row.n });
+      // Cloudflare resolves the country at the edge. We keep a running total
+      // per country and never write a row for an individual visit, so there is
+      // no record here that a particular request ever happened.
+      const cc = (request.cf && request.cf.country) || "XX";
+      const key = /^[A-Z]{2}$/.test(cc) ? `cc:${cc}` : "cc:XX";
+      await env.DB.batch([
+        env.DB.prepare(BUMP).bind("total"),
+        env.DB.prepare(BUMP).bind(key)
+      ]);
     }
-    const row = await env.DB.prepare("SELECT n FROM hits WHERE k = 'total'").first();
-    return json({ total: row ? row.n : 0 });
+    return json(await summary(env));
   } catch (e) {
     // A counter is not worth a 500 on the page it decorates.
     return json({ total: null, error: "counter unavailable" }, 503);
   }
+}
+
+async function summary(env) {
+  const total = await env.DB.prepare("SELECT n FROM hits WHERE k = 'total'").first();
+  const rows = await env.DB.prepare(
+    "SELECT k, n FROM hits WHERE k LIKE 'cc:%' ORDER BY n DESC"
+  ).all();
+  const countries = (rows.results || []).map((r) => ({ cc: r.k.slice(3), n: r.n }));
+  return {
+    total: total ? total.n : 0,
+    countries: countries.length,
+    top: countries.slice(0, 5)
+  };
 }
