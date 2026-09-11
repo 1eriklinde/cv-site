@@ -35,6 +35,41 @@ no social login, so it wants an email address and a password, or a passkey.
 If the person does not have these accounts yet, walk them through creating them
 before anything else; it is the only part of this recipe you cannot do for them.
 
+## 0. Before you start
+
+Check what exists before building anything, because the step that fails is
+otherwise the last one — after the site is written and deployed.
+
+```bash
+node --version        # 20 or newer
+git --version
+gh --version          # GitHub CLI
+npx wrangler --version
+```
+
+Nothing here needs installing beyond those: `npx` fetches wrangler on demand.
+If `node`, `git` or `gh` is missing, install it or move to an environment that
+has them — that is the one thing this recipe cannot route around. "No local
+machine required" is true of the sign-ins, not of the tools.
+
+Then sign both CLIs in. Both print a short code to type into a browser, so both
+work from a phone and neither needs a localhost callback:
+
+```bash
+gh auth login --web                 # code -> github.com/login/device
+npx wrangler login --device --scopes account:read user:read \
+  workers:write workers_scripts:write workers_routes:write
+```
+
+Check them rather than assuming: `gh auth status` and `npx wrangler whoami`
+both print who you are. An unauthenticated `gh` does not announce itself until
+`gh repo create` fails, which is several steps too late.
+
+Add `d1:write` to the wrangler scopes if the site will use a D1 database. The
+list above is the minimum for deploying static assets; a scope that is missing
+surfaces as `Authentication error [code: 10000]` from the API, which does not
+name the scope it wanted.
+
 ## 1. Interview first, build second
 
 Read their CV in full, then get these answered before writing code. They change
@@ -129,14 +164,12 @@ suite caught user input reaching `innerHTML` unescaped on its first run.
 ## 5. Deploy
 
 ```bash
-npx wrangler login --device --scopes account:read user:read \
-  workers:write workers_scripts:write workers_routes:write
 npx wrangler deploy
 ```
 
-`--device` prints a short code to type into the Cloudflare dashboard. Use it
-instead of plain `wrangler login`, which opens a localhost callback that a
-phone, a container, or a remote session cannot receive.
+Signed in already, in section 0. If that was skipped, `wrangler` will say so
+here — use `--device`, never plain `wrangler login`, which opens a localhost
+callback that a phone, a container, or a remote session cannot receive.
 
 The result is live at `<name>.<subdomain>.workers.dev`.
 
@@ -159,6 +192,7 @@ and check afterwards.
 ## 6. Repository and pipeline
 
 ```bash
+gh auth status                      # fail here, not four commands later
 git init -b main && git add -A && git commit -m "CV site"
 gh repo create cv-site --public --source=. --remote=origin --push
 ```
