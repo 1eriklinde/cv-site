@@ -1,8 +1,8 @@
 # Build and deploy a CV site, free, from anywhere
 
-A recipe for an AI coding agent. It produces a single-page static site on
-Cloudflare Workers, a public GitHub repository, and a pipeline that runs tests
-and deploys on every push. Cost: nothing. It works from a terminal, a browser,
+A recipe for an AI coding agent. It produces a static site on Cloudflare
+Workers — the CV on one page, any long-form extras on their own URLs — a public
+GitHub repository, and a pipeline that runs tests and deploys on every push. Cost: nothing. It works from a terminal, a browser,
 or a phone, because no step needs a local machine or a localhost callback.
 
 Written from a session that did exactly this in 24 minutes. The gotchas near
@@ -66,9 +66,11 @@ thing deploys as files.
 
 ```
 public/
-  index.html      content as semantic HTML, readable with JS disabled
+  index.html      the CV, as semantic HTML, readable with JS disabled
+  <topic>.html    one file per long-form piece, served at /<topic>
   styles.css      all styling, including a print stylesheet
-  app.js          progressive enhancement only
+  shared.js       behaviour used on every page
+  app.js          progressive enhancement for the CV only
   _headers        security headers
   fonts/          self-hosted, so the page makes no third-party requests
 wrangler.jsonc
@@ -77,6 +79,14 @@ wrangler.jsonc
 Put the content in the HTML, not in a JavaScript data structure that renders
 it. A CV that requires JavaScript to be read is a CV that some readers cannot
 read.
+
+Keep the CV a CV. If the site grows a long piece — how it was built, a case
+study, a guide — give it its own file and its own URL rather than another
+section on the front page. `html_handling: auto-trailing-slash` serves
+`public/build.html` at `/build` with no configuration, and a separate page gets
+its own `<title>` and description, which is what a reader sees when the link is
+pasted into a chat or a feed. A CV that has to be scrolled past three essays is
+no longer a CV.
 
 `wrangler.jsonc` — note there is no `main`, because there is no Worker script.
 Static asset requests are unmetered on the free plan:
@@ -261,7 +271,17 @@ Two repository secrets close the loop:
 - **Flex items default to `min-width: auto`.** A flex child cannot shrink below
   its content, so one long label forces the whole page wide. Set `min-width: 0`.
 - **Cloudflare's edge may serve a stale copy for a few seconds** after a
-  deploy. Re-request before concluding the deploy failed.
+  deploy. Re-request before concluding the deploy failed. A brand-new path can
+  404 on one request and return 200 on the next while it propagates.
+- **Shared scripts crash on the pages that lack their elements.** A script
+  written for one page and loaded on a second will throw on the first
+  `document.querySelector(...)` that returns null, and everything after it —
+  including unrelated behaviour — silently stops. Guard every lookup, or split
+  per-page behaviour from shared behaviour into separate files.
+- **A server never sees a URL fragment.** If published links point at
+  `#section` and that section becomes its own page, no redirect rule can fix
+  them: the browser does not send the `#part`. Map the old fragments to the new
+  paths in a script on the page they used to live on.
 
 ## Verify, do not assume
 
