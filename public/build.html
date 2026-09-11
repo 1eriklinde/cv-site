@@ -107,26 +107,30 @@
 
       <text class="dg-s" x="165" y="20" text-anchor="middle">push</text>
       <text class="dg-s" x="360" y="20" text-anchor="middle">if green</text>
-      <text class="dg-s" x="555" y="20" text-anchor="middle">10 files</text>
+      <text class="dg-s" x="555" y="20" text-anchor="middle">19 files</text>
 
       <text class="dg-s" x="67"  y="108" text-anchor="middle">edit index.html</text>
       <text class="dg-s" x="262" y="108" text-anchor="middle">npm test</text>
-      <text class="dg-s" x="262" y="122" text-anchor="middle">23 checks</text>
+      <text class="dg-s" x="262" y="122" text-anchor="middle">46 checks</text>
       <text class="dg-s" x="457" y="108" text-anchor="middle">no build step</text>
       <text class="dg-s" x="652" y="108" text-anchor="middle">~50 ms to first byte</text>
     </svg>
 
     <dl class="skills">
+      <!-- stats:start -->
       <dt>first load</dt>
-      <dd>32.6 KB over the wire — 21 KB of that is the self-hosted typeface, so the page itself is about 11 KB. One HTML file, one stylesheet, two small scripts.</dd>
+      <dd>54.6 KB over the wire, compressed — 42.0 KB of that is the self-hosted typeface, so the document itself is about 12.5 KB. One HTML file, one stylesheet, three small scripts.</dd>
       <dt>deploy</dt>
-      <dd>~14 seconds from <code>git push</code> to live: 10 assets uploaded, worker updated, edge triggers deployed.</dd>
+      <dd>~14 seconds from <code>git push</code> to live: 19 assets uploaded, worker updated, edge triggers deployed.</dd>
       <dt>tests</dt>
-      <dd>23 jsdom checks on the command line below — completion, history, escaping, routing. The deploy does not run if they fail.</dd>
+      <dd>46 jsdom checks on the command line below — completion, history, escaping, routing. The deploy does not run if they fail.</dd>
+      <!-- stats:end -->
+      <dt>views</dt>
+      <dd><span id="hits">&mdash;</span> page views, counted in a SQLite database at the edge — Cloudflare D1, one row, one integer. No address, no user agent, no timestamp, no cookie: there is nothing in that table that could be traced to a person. The page itself is still served as a static asset and never touches the Worker.</dd>
       <dt>hardening</dt>
       <dd><code>default-src 'none'</code> CSP, no inline scripts or styles, no third-party requests at all. The typeface is served from this origin, so nothing you do here is visible to anyone else.</dd>
       <dt>cost</dt>
-      <dd>€0. Cloudflare Workers free plan; static asset requests are unmetered.</dd>
+      <dd>€0. Cloudflare Workers free plan, where static asset requests are free and unlimited. Every page and file here is one of those. The only billed request on the site is the counter call above, and the free plan covers 100,000 of those a day.</dd>
     </dl>
   </section>
   </article>
@@ -134,7 +138,7 @@
   <p class="backlink backlink-end"><a href="/">&larr; Back to the CV</a></p>
 
   <footer class="foot">
-    <p>Built as a static page and served from Cloudflare's edge. No trackers, no analytics, no cookies.</p>
+    <p>Built as a static page and served from Cloudflare's edge. No trackers, no cookies, no third-party requests. One counter of page views, which stores a number and nothing else.</p>
   </footer>
 </main>
 

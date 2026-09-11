@@ -21,8 +21,10 @@ public/            everything that ships
   guide.md         the recipe, written for someone else's agent to follow
   erik-linde-cv.pdf
   fonts/           self-hosted JetBrains Mono (no third-party requests)
-test/shell.test.mjs  jsdom tests for the command line
-wrangler.jsonc     deploy config
+src/index.js       the Worker: one endpoint, /api/hits
+schema.sql         the D1 table — one key, one integer
+test/shell.test.mjs  jsdom tests for the command line and the counter
+wrangler.jsonc     deploy config, asset routing and the D1 binding
 ```
 
 ## Editing the CV
@@ -44,6 +46,7 @@ rendering it. If you add a section, give it an `id` and add that id to the
 npm run dev       local server on http://127.0.0.1:8787
 npm test          jsdom tests for the command line
 npm run timeline  regenerate the build timeline from the session log
+npm run stats     re-measure the colophon figures from the files that ship
 npm run preview   upload a version and print its preview URL (production untouched)
 npm run promote   send the latest uploaded version to production
 npm run deploy    build and publish straight to production, skipping the preview
@@ -70,6 +73,29 @@ between the `<!-- timeline:start -->` markers in `build.html`. Every figure on
 that section — minutes, turns, tool calls, tokens, cost — is measured from the
 log rather than typed by hand, so it stays honest if regenerated.
 
+## The view counter
+
+Everything on the site is a static asset, which Cloudflare serves for free and
+without invoking a Worker. The one exception is `/api/hits`: `src/index.js`
+runs only for that path and increments a single row in a D1 (SQLite) database.
+A page view therefore still costs nothing — only the counter call is a billed
+Worker request, and the free plan covers 100k a day.
+
+The table is `hits(k TEXT PRIMARY KEY, n INTEGER)` and holds exactly one row.
+No address, no user agent, no timestamp, no cookie — which is what lets the
+footer still say nothing is stored about the visitor. Two tests enforce that:
+they fail if the Worker ever reads a request header or the schema grows an
+identifying column.
+
+```bash
+npx wrangler d1 execute cv-stats --file=schema.sql          # create the table
+npx wrangler d1 execute cv-stats --command "SELECT * FROM hits"
+```
+
+`d1:write` must be among the OAuth scopes, which the narrow login below does
+not include by default — add it when logging in, or `d1 create` fails with
+`Authentication error [code: 10000]`.
+
 ## Deploying
 
 Pushing to `main` deploys automatically — see below. To deploy by hand:
@@ -88,7 +114,7 @@ narrow the scopes:
 
 ```bash
 npx wrangler login --device --scopes account:read user:read \
-  workers:write workers_scripts:write workers_routes:write
+  workers:write workers_scripts:write workers_routes:write d1:write
 ```
 
 ## CI/CD

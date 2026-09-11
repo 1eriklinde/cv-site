@@ -1,10 +1,19 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cv",
+  "main": "src/index.js",
   "compatibility_date": "2026-09-10",
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cv-stats",
+      "database_id": "21e5fbf4-a61e-4069-b22b-58311ada4721"
+    }
+  ]
 }

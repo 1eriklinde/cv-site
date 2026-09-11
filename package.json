@@ -9,6 +9,7 @@
     "tail": "wrangler tail",
     "test": "node test/shell.test.mjs",
     "timeline": "node tools/build-timeline.mjs",
+    "stats": "node tools/build-stats.mjs",
     "preview": "wrangler versions upload",
     "promote": "node tools/promote.mjs",
     "versions": "wrangler versions list"

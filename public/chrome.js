@@ -35,6 +35,19 @@
     });
   }
 
+  /* ---------- page views ----------
+     Counts the view and, if this page displays the number, fills it in. The
+     endpoint stores one integer; nothing identifying anyone is sent or kept. */
+  const hitsEl = document.querySelector("#hits");
+  if (typeof fetch === "function") fetch("/api/hits", { method: "POST" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => {
+      if (hitsEl && d && typeof d.total === "number") {
+        hitsEl.textContent = d.total.toLocaleString("en-GB");
+      }
+    })
+    .catch(() => { /* a counter is not worth breaking a page over */ });
+
   /* ---------- the articles used to live on the CV as #anchors ---------- */
   const moved = { "#build": "/build", "#onwards": "/onwards", "#yours": "/yours",
                   "#timeline": "/build", "#colophon": "/build",
