@@ -76,7 +76,7 @@
     <h2 id="h-skills" class="cmd"><span class="prompt">$</span> <span class="c">cat skills.txt</span></h2>
     <dl class="skills">
       <dt>monitoring</dt>
-      <dd>Icinga2, Icinga Director, Nagios plugin development, Prometheus, Grafana, Vector.dev, QuestDB, SNMP, MQTT, alerting and escalation design</dd>
+      <dd>Icinga2, Icinga Director, Nagios plugin development, Prometheus, Grafana, Vector.dev, InfluxDB, QuestDB, SNMP, MQTT, alerting and escalation design</dd>
       <dt>linux</dt>
       <dd>Ubuntu / Debian, systemd and timers, kernel parameters and boot config, sysfs, APT package management, users and SSH key management, SSH at fleet scale, Ansible runbooks</dd>
       <dt>windows</dt>
@@ -115,10 +115,11 @@
         <li><b>Check plugin development.</b> Icinga2 plugins in Python, Bash and PowerShell against SNMP, JSON APIs and SQL, including hardware-level health checks (DDC/CI via ddcutil, sysfs EDID validation, screenshot pixel-hash deltas) that catch failures xrandr and VNC report as healthy.</li>
         <li><b>Problem management.</b> Traced playback failures to a <code>JSON.parse('')</code> crash triggered by empty backend responses — a server-side degradation assumed for months to be a client fault — and shipped a check to detect the pattern proactively. Also traced a recurring fault in our own domain to DNS caching — stale answers kept being served after records changed, so the symptom returned on a TTL cycle rather than staying fixed — and corrected the TTLs so changes take effect when they are made.</li>
         <li><b>Infrastructure remediation.</b> Led an Icinga2 PKI remediation across masters and satellites: CA distribution, <code>ticket_salt</code> configuration, and zone and dependency type mismatches that were causing silent check failures. Restored monitoring coverage on every affected host.</li>
-        <li><b>SLA reporting.</b> Built the operational-uptime calculation behind stakeholder reporting — downtime clipped to per-day playout schedule windows and weighted by venue status classification.</li>
-        <li><b>Fault visualisation.</b> The internal operations site already showed webcam stills from an S3 bucket against a database of timestamps, but had no link to the video controllers driving the screens. Integrated their API so screen faults and live brightness read on the same page and refresh continuously, instead of being checked one controller at a time. Delivered through the team's GitOps pipeline, GitHub to Argo CD, landing on the test cluster to verify before the same change was promoted to production.</li>
+        <li><b>SLA reporting.</b> Built the operational-uptime calculation behind stakeholder reporting — downtime clipped to per-day playout schedule windows and weighted by venue status classification — computed over InfluxDB series and presented as Grafana dashboards.</li>
+        <li><b>Field-facing tooling.</b> A Grafana view joining several databases, so the camera photograph of a site pulled from S3 sits beside the monitoring state of the screen it shows — on-site teams see which display is dark rather than working from a hostname.</li>
+        <li><b>Fault visualisation.</b> The operations site showed webcam stills from S3 but had no link to the video controllers driving the screens. Integrated their API so screen faults and live brightness read on the same page and refresh continuously, rather than being checked one controller at a time. Shipped through the team's GitOps pipeline — GitHub to Argo CD, test cluster first, then promoted to production.</li>
       </ul>
-      <p class="tags">Icinga2 · Icinga Director · Prometheus · Grafana · Vector.dev · QuestDB · Ansible · Kubernetes · Argo CD · Consul · WireGuard · TeamViewer · HaloITSM · Zendesk · PDQ Deploy</p>
+      <p class="tags">Icinga2 · Icinga Director · Prometheus · Grafana · Vector.dev · QuestDB · InfluxDB · Ansible · Kubernetes · Argo CD · Consul · WireGuard · TeamViewer · HaloITSM · Zendesk · PDQ Deploy</p>
     </article>
 
     <article class="role">
