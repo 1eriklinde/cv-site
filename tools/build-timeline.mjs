@@ -42,7 +42,7 @@ const STORY = [
   ["23:24", "Wrote 23 tests. Two failed.", "One assertion was wrong. The other was a genuine defect: typing HTML into the command line put it straight into innerHTML unescaped."],
   ["23:26", "Broke it with my own hardening.", "Adding a strict CSP silently killed the uptime ribbon — style-src 'self' blocks inline style attributes, so the segment widths vanished with no error anywhere. Another screenshot caught it. Moved to classes, kept the policy strict."],
   ["23:28", "Cloudflare said no.", "The first login died server-side: wrangler asks for an OAuth scope list its own client rejects. The device flow with an explicit narrower scope list worked."],
-  ["23:31", "Live.", "Ten assets uploaded, worker updated, edge triggers deployed — 14.3 seconds, on a URL anyone could open."],
+  ["23:31", "Live.", "One <code>wrangler deploy</code> from the same terminal: ten assets uploaded, worker updated, edge triggers deployed — 14.3 seconds, on a URL anyone could open. No dashboard was opened to do it."],
 ];
 
 const MILESTONES = [
