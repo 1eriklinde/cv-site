@@ -149,12 +149,23 @@ Two repository secrets:
 
 | Secret | What |
 |---|---|
-| `CLOUDFLARE_API_TOKEN` | Create at dash.cloudflare.com/profile/api-tokens with the **Edit Cloudflare Workers** template |
+| `CLOUDFLARE_API_TOKEN` | Create at dash.cloudflare.com/profile/api-tokens: the **Edit Cloudflare Workers** template, **plus Account → D1 → Edit** |
 | `CLOUDFLARE_ACCOUNT_ID` | Already set |
 
 ```bash
-gh secret set CLOUDFLARE_API_TOKEN     # prompts for the value
+gh secret set CLOUDFLARE_API_TOKEN     # prompts for the value; never pass it as an argument
+gh secret list                         # both must be listed, or CI silently skips deploying
 ```
+
+The D1 permission is not in the Workers template and is not optional here: the
+Worker carries a D1 binding, and uploading a version validates it. A token
+without it fails as `Authentication error [code: 10000]`, which does not name
+the permission it wanted — the same wall the OAuth login hit before `d1:write`
+was added to its scopes.
+
+Until both secrets exist the pipeline still runs and still passes: the
+Cloudflare steps skip rather than fail, by design, so a green run is not
+evidence that anything was deployed. `gh secret list` is.
 
 ## Notes
 

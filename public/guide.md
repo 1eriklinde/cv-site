@@ -286,7 +286,17 @@ Two repository secrets close the loop:
   dash.cloudflare.com/profile/api-tokens with the **Edit Cloudflare Workers**
   template. This is the one step that cannot be done from a CLI: wrangler's
   OAuth scopes do not include API-token management, so it is a browser visit.
-  A phone browser is fine.
+  A phone browser is fine. Give the token a permission for every binding the
+  Worker has — a D1 database needs Account → D1 → Edit, which the Workers
+  template does not include — because uploading a version validates the
+  bindings, and the token's own login scopes do not cover them.
+
+Set it without letting the value into a shell history or a transcript:
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN   # prompts; do not pass it as an argument
+gh secret list                       # both secrets, or the deploy silently skips
+```
 
 ## Gotchas that cost real time
 
@@ -304,6 +314,11 @@ Two repository secrets close the loop:
   compare `scrollWidth` with `clientWidth`.
 - **Flex items default to `min-width: auto`.** A flex child cannot shrink below
   its content, so one long label forces the whole page wide. Set `min-width: 0`.
+- **A green pipeline is not a deploy.** The workflow above skips its Cloudflare
+  steps when `CLOUDFLARE_API_TOKEN` is absent, so the run passes as a test gate
+  and nothing ships. That is the right default — a fresh repository should not
+  fail — but it means "CI is green" proves only that the tests ran. `gh secret
+  list` is what proves the deploy half exists.
 - **Cloudflare's edge may serve a stale copy for a few seconds** after a
   deploy. Re-request before concluding the deploy failed. A brand-new path can
   404 on one request and return 200 on the next while it propagates.
